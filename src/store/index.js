@@ -1,6 +1,6 @@
 // import {createStore} from 'redux';
 import { configureStore } from '@reduxjs/toolkit';
-
+import authHandler from './auth-handler';
 import counterReducer from './counter';
 // const counterReducer = (state={counter:0 },action)=>{
 //     if(action.type==='increment'){
@@ -19,7 +19,7 @@ import counterReducer from './counter';
  
 
 const store = configureStore({
-    reducer : {counter : counterReducer}
+    reducer : {counter : counterReducer,auth:authHandler}
 })
 
 
