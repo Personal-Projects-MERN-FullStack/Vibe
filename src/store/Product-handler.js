@@ -56,7 +56,18 @@ const products = [
       "100% cotton",
       "Available in various sizes and colors"
     ],
-    "reviews": [],
+    "reviews": [
+      {
+        "username": "JohnDoe",
+        "rating": 2,
+        "comment": "Great TV, excellent picture quality!"
+      },
+      {
+        "username": "JaneSmith",
+        "rating": 5,
+        "comment": "The smart features are very convenient."
+      }
+    ],
     "availability": {
       "inStock": true,
       "quantity": 50,

@@ -6,14 +6,19 @@ import Navbar from "./components/UI/Navbar";
 import Cart from "./pages/Cart";
 import Footer from "./components/UI/Footer";
 import Notfound from "./components/UI/Notfound";
+import Sidecart from "./components/UI/Sidecart";
+import { useSelector } from "react-redux";
 
 function AppRoutes() {
+  const cartstate = useSelector(state => state.ui.showcart)
+
   const routes = useRoutes([
     {
       path: "/",
       element: (
         <div>
           <Navbar />
+         {cartstate &&  <Sidecart/>}
           <Outlet />
           <Footer/>
         </div>

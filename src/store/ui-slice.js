@@ -2,13 +2,15 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const uislice = createSlice({
     name:'counter',
-    initialState : {counter :0,showcounter:true},
+    initialState : {showcart:true},
     reducers : {
-        increment(state){
-            state.counter++;
+        cartchange(state,action,payload){
+            state.showcart = !state.showcart;
         },
-        decrement(state){}
+        
     }
 })
 
 export default uislice.reducer;
+
+export const UiSlice = uislice.actions;
