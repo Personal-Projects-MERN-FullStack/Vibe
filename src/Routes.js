@@ -5,6 +5,7 @@ import Checkout from "./pages/Chekout";
 import Navbar from "./components/UI/Navbar";
 import Cart from "./pages/Cart";
 import Footer from "./components/UI/Footer";
+import Notfound from "./components/UI/Notfound";
 
 function AppRoutes() {
   const routes = useRoutes([
@@ -23,8 +24,10 @@ function AppRoutes() {
         { path: "/product-search/:search", element: <ProductList /> },
         { path: "/product/:id", element: <ProductList /> },
         { path: "/checkout", element: <Checkout /> },
+       
       ],
     },
+    { path: '*', element: <Notfound /> }
   ]);
   return routes;
 }
