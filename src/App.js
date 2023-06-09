@@ -1,17 +1,13 @@
-import {useSelector} from 'react-redux'
-import React  from 'react';
+import { BrowserRouter as Router } from "react-router-dom";
+import Routes from './Routes'
 
-
-function App() {
-const counter = useSelector(state => state.counter)
+function App(){
   return (
-  
-  <>
-
-
-  <div>{counter}</div>
-  </>
-  );
+    <Router>
+      <Routes />
+    </Router>
+  )
 }
+
 
 export default App;
