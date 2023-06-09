@@ -8,9 +8,9 @@ import Footer from "./components/UI/Footer";
 import Notfound from "./components/UI/Notfound";
 import Sidecart from "./components/UI/Sidecart";
 import { useSelector } from "react-redux";
-
+import ProductDetails from "./pages/ProductDetails";
 function AppRoutes() {
-  const cartstate = useSelector(state => state.ui.showcart)
+  const cartstate = useSelector((state) => state.ui.showcart);
 
   const routes = useRoutes([
     {
@@ -18,21 +18,20 @@ function AppRoutes() {
       element: (
         <div>
           <Navbar />
-         {cartstate &&  <Sidecart/>}
+          {cartstate && <Sidecart />}
           <Outlet />
-          <Footer/>
+          <Footer />
         </div>
       ),
       children: [
         { path: "/", element: <Home /> },
         { path: "/cart", element: <Cart /> },
         { path: "/product-search/:search", element: <ProductList /> },
-        { path: "/product/:id", element: <ProductList /> },
+        { path: "/product/:id", element: <ProductDetails /> },
         { path: "/checkout", element: <Checkout /> },
-       
       ],
     },
-    { path: '*', element: <Notfound /> }
+    { path: "*", element: <Notfound /> },
   ]);
   return routes;
 }
