@@ -67,10 +67,18 @@ const Navbar = () => {
           </div>
 
           <div class="flex lg:ml-4">
+            {!authticated && (
+              <div
+                
+                class="text-gray-300 hover:bg-gray-700 flex justify-center items-center cursor-pointer hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+              >
+                Login
+              </div>
+            )}
             {authticated && (
               <div
-                href="s"
-                class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+               
+                class="text-gray-300 hover:bg-gray-700 flex justify-center items-center cursor-pointer hover:text-white px-3 py-2 rounded-md text-sm font-medium"
               >
                 Logout
               </div>
