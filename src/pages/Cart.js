@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { pd } from "../store/Product-handler";
+import { UiSlice } from "../store/ui-slice";
 
 const Cart = () => {
   const Products = useSelector((state) => state.product.cart);
@@ -20,9 +21,20 @@ const Cart = () => {
   const onQtyIncresseHandler = (item) => {
     dispatch(pd.AddToCart(item));
   };
-  const onQtyDecressHandler=(item)=>{
-    dispatch(pd.RemoveFromCart(item))
-  }
+  const onQtyDecressHandler = (item) => {
+    dispatch(pd.RemoveFromCart(item));
+  };
+  const oncartclearhandler = () => {
+    dispatch(pd.ClearCart());
+    dispatch(
+      UiSlice.shownotificationbar({
+        active: true,
+        msg: "Cart Cleard",
+        path: "/",
+        pathname: "Continue Shopping",
+      })
+    );
+  };
   return (
     <div class="container mx-auto py-8">
       <h1 class="text-2xl font-bold mb-4">
@@ -64,7 +76,14 @@ const Cart = () => {
                   <td class="py-2 px-4 border-b">₹ {item.price}</td>
                   <td class="py-2 px-4 border-b">
                     <div class="flex items-center">
-                      <button onClick={()=>{onQtyDecressHandler(item)}} class="text-blue-500 font-bold px-2">-</button>
+                      <button
+                        onClick={() => {
+                          onQtyDecressHandler(item);
+                        }}
+                        class="text-blue-500 font-bold px-2"
+                      >
+                        -
+                      </button>
                       <span class="px-2">{item.qty}</span>
                       <button
                         onClick={() => {
@@ -76,7 +95,9 @@ const Cart = () => {
                       </button>
                     </div>
                   </td>
-                  <td class="py-2 px-4 border-b">₹ {Math.round(item.price * item.qty)}</td>
+                  <td class="py-2 px-4 border-b">
+                    ₹ {Math.round(item.price * item.qty)}
+                  </td>
                 </tr>
               );
             })}
@@ -92,6 +113,15 @@ const Cart = () => {
       </div>
 
       <div class="mt-4 flex flex-col md:flex-row justify-between">
+        <button
+          onClick={oncartclearhandler}
+          href="#"
+          class="text-white bg-blue-500 py-2 px-4 rounded hover:bg-blue-600 mt-2 md:mt-0"
+        >
+          Clear Cart
+        </button>
+      </div>
+      <div class="mt-4 flex flex-col md:flex-row justify-between">
         <Link
           to="/checkout"
           href="#"
@@ -99,6 +129,7 @@ const Cart = () => {
         >
           Proceed to Checkout
         </Link>
+
         <Link
           to="/"
           href="#"

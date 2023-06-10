@@ -29,7 +29,7 @@ const products = [
       },
     ],
     availability: {
-      inStock: true,
+      inStock: false,
       quantity: 10,
       locations: [
         {
@@ -380,6 +380,9 @@ const Producthandler = createSlice({
       } else {
         state.cart.push({ ...action.payload, qty: 1 });
       }
+    },
+    ClearCart(state,action,payload){
+      state.cart = []
     }
     
   },
