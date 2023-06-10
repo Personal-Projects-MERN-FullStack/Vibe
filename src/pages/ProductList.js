@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { pd } from "../store/Product-handler";
 import { useParams } from "react-router";
 import ProductCard from "../components/product/ProductCard";
+import { UiSlice } from "../store/ui-slice";
 
 const ProductList = () => {
   const [ProductAvail, setProductAvail] = useState({
@@ -11,21 +12,44 @@ const ProductList = () => {
     msg: "Searching product",
   });
   const { search } = useParams();
-
+  const dispatch = useDispatch();
   const Product = useSelector((state) => state.product.SearchedProducts);
 
-  
+  useEffect(() => {
+    dispatch(UiSlice.updatesearchcontent(search));
+  }, []);
 
-  return (<>
-    <div>{!Product.status && <LoadingSpinner message={ProductAvail.msg} />}</div>
-    {Product.status &&  <div class="lg:m-8 grid grid-cols-1 gap-4 m-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-      {Product.data.map((item)=>{
-        return <div>
-          <ProductCard product={item} addtocart="true"/>
+  useEffect(() => {
+    
+    if (Product.data.length <= 0) {
+      
+      setProductAvail({
+        status: true,
+        msg: "product is not available",
+      });
+    }else{
+      setProductAvail({
+        status: false,
+        msg: "Searching Products",
+      });
+    }
+  }, [Product]);
+  return (
+    <>
+      <div>
+        {ProductAvail.status && <LoadingSpinner message={ProductAvail.msg} />}
+      </div>
+      {Product.status && (
+        <div class="lg:m-8 grid grid-cols-1 gap-4 m-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+          {Product.data.map((item) => {
+            return (
+              <div>
+                <ProductCard product={item} addtocart="true" />
+              </div>
+            );
+          })}
         </div>
-      })}
-    </div> }
-
+      )}
     </>
   );
 };

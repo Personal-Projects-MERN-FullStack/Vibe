@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { pd } from "../../store/Product-handler";
 import { UiSlice } from "../../store/ui-slice";
 const ProductCard = ({ product, addtocart }) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const { name, category, reviews, price } = product;
   function calculateAverageRating(product) {
     if (!product.reviews || product.reviews.length === 0) {
@@ -21,14 +21,22 @@ const ProductCard = ({ product, addtocart }) => {
   }
   const OnAddToCartHandler = () => {
     dispatch(pd.AddToCart(product, "something"));
-    dispatch(UiSlice.shownotificationbar({active:true,msg:`${product.name} Added to Cart Succefully`,path:'/cart',pathname:"Chekout The Product on Cart"}))
+    dispatch(
+      UiSlice.shownotificationbar({
+        active: true,
+        msg: `${product.name} Added to Cart Succefully`,
+        path: "/cart",
+        pathname: "Chekout The Product on Cart",
+      })
+    );
   };
+ 
 
   return (
     <div class="max-w-sm rounded overflow-hidden shadow-lg ">
       <Link to={`/product/${product.id}`}>
         <img
-          src={`https://source.unsplash.com/800x600/?${name},,category:${category}`}
+          src={`https://source.unsplash.com/400x200/?${name},,category:${category}`}
           alt="Product "
           class="w-full cursor-pointer "
         />
@@ -78,9 +86,10 @@ const ProductCard = ({ product, addtocart }) => {
         {addtocart && (
           <div>
             {product.availability.inStock && (
-              <button 
-              onClick={OnAddToCartHandler} 
-              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+              <button
+                onClick={OnAddToCartHandler}
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              >
                 Add to Cart
               </button>
             )}

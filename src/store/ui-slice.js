@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const uislice = createSlice({
     name:'counter',
-    initialState : {showcart:false,shownotification:{active:false,msg:"",path:'',pathname:""}},
+    initialState : {showcart:false,shownotification:{active:false,msg:"",path:'',pathname:""},search:""},
     reducers : {
         cartchange(state,action,payload){
             state.showcart = !state.showcart;
@@ -13,6 +13,10 @@ const uislice = createSlice({
         },
         hidenotification(state,action,payload){
 
+        },
+        updatesearchcontent(state,action,payload){
+            // console.log(action.payload)
+            state.search = action.payload
         }
         
     }

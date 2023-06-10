@@ -405,7 +405,7 @@ const Producthandler = createSlice({
 
         return results;
       }
-      
+
       state.SearchedProducts = {
         status: true,
         msg: `Show Results (${

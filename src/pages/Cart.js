@@ -35,12 +35,15 @@ const Cart = () => {
       })
     );
   };
+  const ongotocarthandler =()=>{
+    dispatch(UiSlice.cartchange())
+  }
   return (
     <div class="container mx-auto py-8">
       <h1 class="text-2xl font-bold mb-4">
         Your Cart -
         <Link to="/cart">
-          <button className="text-xl text-blue-900 underline">
+          <button onClick={ongotocarthandler} className="text-xl text-blue-900 underline">
             Go To Cart
           </button>
         </Link>

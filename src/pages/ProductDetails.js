@@ -20,7 +20,14 @@ const ProductDetails = () => {
 
   const OnAddToCartHandler = () => {
     dispatch(pd.AddToCart(pdata[0], "something"));
-    dispatch(UiSlice.shownotificationbar({active:true,msg:`${pdata[0].name} Added to Cart Succefully`,path:'/cart',pathname:"Chekout The Product on Cart"}))
+    dispatch(
+      UiSlice.shownotificationbar({
+        active: true,
+        msg: `${pdata[0].name} Added to Cart Succefully`,
+        path: "/cart",
+        pathname: "Chekout The Product on Cart",
+      })
+    );
   };
   return (
     <div>
@@ -48,18 +55,19 @@ const ProductDetails = () => {
                 Availability:{" "}
                 {pdata[0].availability.inStock ? "In Stock" : " Out Of Stock "}
               </p>
-              {pdata[0].availability.inStock && <button
-                onClick={OnAddToCartHandler}
-                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-              >
-                Add to Cart
-              </button>}
-              {!pdata[0].availability.inStock && <button
-               
-                class="bg-gray-500 cursor-not-allowed hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-              >
-                Out Of Stock
-              </button>}
+              {pdata[0].availability.inStock && (
+                <button
+                  onClick={OnAddToCartHandler}
+                  class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                >
+                  Add to Cart
+                </button>
+              )}
+              {!pdata[0].availability.inStock && (
+                <button class="bg-gray-500 cursor-not-allowed hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                  Out Of Stock
+                </button>
+              )}
             </div>
             <div class="bg-white p-4 shadow-md rounded-lg col-span-2">
               <h3 class="text-lg font-bold mb-2">Reviews</h3>
