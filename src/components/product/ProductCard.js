@@ -1,7 +1,10 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-const ProductCard = ({ product }) => {
+import { pd } from "../../store/Product-handler";
+import { UiSlice } from "../../store/ui-slice";
+const ProductCard = ({ product, addtocart }) => {
+  const dispatch = useDispatch()
   const { name, category, reviews, price } = product;
   function calculateAverageRating(product) {
     if (!product.reviews || product.reviews.length === 0) {
@@ -16,6 +19,10 @@ const ProductCard = ({ product }) => {
 
     return averageRating;
   }
+  const OnAddToCartHandler = () => {
+    dispatch(pd.AddToCart(product, "something"));
+    dispatch(UiSlice.shownotificationbar({active:true,msg:`${product.name} Added to Cart Succefully`,path:'/cart',pathname:"Chekout The Product on Cart"}))
+  };
 
   return (
     <div class="max-w-sm rounded overflow-hidden shadow-lg ">
@@ -28,7 +35,6 @@ const ProductCard = ({ product }) => {
       </Link>
       <div class="px-6 py-4">
         <Link to={`/product/${product.id}`}>
-         
           <div class="font-bold text-xl mb-2 cursor-pointer">{name}</div>
         </Link>
         <p class="text-gray-700 text-base mb-4">Categories: {category}</p>
@@ -67,6 +73,22 @@ const ProductCard = ({ product }) => {
                 </svg>
               );
             })}
+          </div>
+        )}
+        {addtocart && (
+          <div>
+            {product.availability.inStock && (
+              <button 
+              onClick={OnAddToCartHandler} 
+              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Add to Cart
+              </button>
+            )}
+            {!product.availability.inStock && (
+              <button class="bg-gray-500 cursor-not-allowed hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Out Of Stock
+              </button>
+            )}
           </div>
         )}
       </div>

@@ -339,6 +339,7 @@ const products = [
 ];
 
 let initialState = {
+  SearchedProducts: { status: null, msg: "", data: [] },
   products,
   product: {},
   cart: [],
@@ -369,11 +370,11 @@ const Producthandler = createSlice({
       const existingItemIndex = state.cart.findIndex(
         (item) => item.id === action.payload.id
       );
-      
+
       if (existingItemIndex !== -1) {
         const existingItem = state.cart[existingItemIndex];
         existingItem.qty -= 1;
-    
+
         if (existingItem.qty === 0) {
           state.cart.splice(existingItemIndex, 1);
         }
@@ -381,10 +382,38 @@ const Producthandler = createSlice({
         state.cart.push({ ...action.payload, qty: 1 });
       }
     },
-    ClearCart(state,action,payload){
-      state.cart = []
-    }
-    
+    ClearCart(state, action, payload) {
+      state.cart = [];
+    },
+    SearchedProducts(state, action, payload) {
+      function searchJson(json, searchText) {
+        const results = [];
+        json.forEach((item) => {
+          for (let key in item) {
+            if (typeof item[key] === "string") {
+              if (item[key].toLowerCase().includes(searchText.toLowerCase())) {
+                const existingItem = results.find(
+                  (items) => items.id === item.id
+                );
+                if (!existingItem) {
+                  results.push(item);
+                }
+              }
+            }
+          }
+        });
+
+        return results;
+      }
+      
+      state.SearchedProducts = {
+        status: true,
+        msg: `Show Results (${
+          searchJson(state.products, action.payload).length
+        } items found)`,
+        data: searchJson(state.products, action.payload),
+      };
+    },
   },
 });
 

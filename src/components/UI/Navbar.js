@@ -1,21 +1,30 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AiOutlineShoppingCart } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { UiSlice } from "../../store/ui-slice";
+import { pd } from "../../store/Product-handler";
 
 const Navbar = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const authticated = useSelector((state) => state.auth.auth);
   const onsearchhandler = (event) => {
-    if (event.keyCode === 13) {
-      alert("fuck you");
+    console.log(event.target.value)
+    if(event.target.value.length > 0){
+      navigate(`/product-search/${event.target.value}`)
+    dispatch(pd.SearchedProducts(event.target.value));
+    }else{
+      navigate('/')
     }
   };
 
   const oncartbuttonhandler = () => {
     dispatch(UiSlice.cartchange());
   };
+
+
+  
   return (
     <nav class="bg-gray-800 ">
       <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
@@ -51,7 +60,7 @@ const Navbar = () => {
                   class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:border-blue-300 focus:ring-blue-200 focus:ring-2 sm:text-sm"
                   placeholder="Search"
                   type="search"
-                  onKeyDown={onsearchhandler}
+                  onChange={onsearchhandler}
                 />
               </div>
             </div>
