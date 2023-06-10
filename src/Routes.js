@@ -9,15 +9,19 @@ import Notfound from "./components/UI/Notfound";
 import Sidecart from "./components/UI/Sidecart";
 import { useSelector } from "react-redux";
 import ProductDetails from "./pages/ProductDetails";
+import Notification from "./components/common/Notification";
 function AppRoutes() {
   const cartstate = useSelector((state) => state.ui.showcart);
-
+  const notification_status = useSelector(state=>state.ui.shownotification)
   const routes = useRoutes([
     {
       path: "/",
       element: (
         <div>
           <Navbar />
+
+         {notification_status.active &&  <Notification ninfo={notification_status}/>}
+
           {cartstate && <Sidecart />}
           <Outlet />
           <Footer />

@@ -5,7 +5,7 @@ const products = [
     id: "123456789",
     category: "Electronics",
     name: "Smart TV",
-    price: 799.99,
+    price: 799,
     brand: "Samsung",
     description:
       "Experience stunning visuals with this high-definition smart TV.",
@@ -50,7 +50,7 @@ const products = [
     id: "123456790",
     category: "Clothing",
     name: "T-Shirt",
-    price: 19.99,
+    price: 19,
     brand: "Nike",
     description: "Comfortable and stylish t-shirt for everyday wear.",
     features: ["100% cotton", "Available in various sizes and colors"],
@@ -88,7 +88,7 @@ const products = [
     id: "123456791",
     category: "Home Decor",
     name: "Table Lamp",
-    price: 49.99,
+    price: 49,
     brand: "ModernDesign",
     description: "Illuminate your living space with this stylish table lamp.",
     features: [
@@ -119,7 +119,7 @@ const products = [
     id: "123456792",
     category: "Books",
     name: "Science Fiction Novel",
-    price: 14.99,
+    price: 14,
     brand: "SciFiBooks",
     description:
       "Embark on an exciting journey with this gripping science fiction novel.",
@@ -151,7 +151,7 @@ const products = [
     id: "123456793",
     category: "Beauty",
     name: "Facial Cleanser",
-    price: 9.99,
+    price: 9,
     brand: "GlowBeauty",
     description:
       "Cleanse and refresh your skin with this gentle facial cleanser.",
@@ -183,7 +183,7 @@ const products = [
     id: "123456794",
     category: "Sports",
     name: "Basketball",
-    price: 24.99,
+    price: 24,
     brand: "SportZone",
     description:
       "Enjoy a game of basketball with this durable and high-quality ball.",
@@ -215,7 +215,7 @@ const products = [
     id: "123456795",
     category: "Toys",
     name: "Remote Control Car",
-    price: 39.99,
+    price: 39,
     brand: "ToyTech",
     description: "Have fun racing with this remote control car.",
     features: [
@@ -246,7 +246,7 @@ const products = [
     id: "123456796",
     category: "Jewelry",
     name: "Diamond Necklace",
-    price: 999.99,
+    price: 999,
     brand: "LuxuryJewels",
     description:
       "Adorn yourself with elegance with this stunning diamond necklace.",
@@ -278,7 +278,7 @@ const products = [
     id: "123456797",
     category: "Furniture",
     name: "Sofa",
-    price: 599.99,
+    price: 599,
     brand: "ComfortLiving",
     description: "Relax and unwind on this comfortable sofa.",
     features: [
@@ -309,7 +309,7 @@ const products = [
     id: "123456798",
     category: "Grocery",
     name: "Organic Apples",
-    price: 2.99,
+    price: 2,
     brand: "HealthyEats",
     description: "Enjoy the freshness and flavor of organic apples.",
     features: [
@@ -341,17 +341,47 @@ const products = [
 let initialState = {
   products,
   product: {},
+  cart: [],
 };
 const Producthandler = createSlice({
   name: "product",
   initialState,
   reducers: {
-    GetProduct(state, action) {
-     
-      state.product= 
-        state.products.filter((jsonObj) => jsonObj.id === action.payload)
-     
+    UpdateCart(state, action) {
+      state.cart = action.payload;
     },
+    GetProduct(state, action) {
+      state.product = state.products.filter(
+        (jsonObj) => jsonObj.id === action.payload
+      );
+    },
+    AddToCart(state, action, payload) {
+      const existingItem = state.cart.find(
+        (item) => item.id === action.payload.id
+      );
+      if (existingItem) {
+        existingItem.qty += 1;
+      } else {
+        state.cart.push({ ...action.payload, qty: 1 });
+      }
+    },
+    RemoveFromCart(state, action) {
+      const existingItemIndex = state.cart.findIndex(
+        (item) => item.id === action.payload.id
+      );
+      
+      if (existingItemIndex !== -1) {
+        const existingItem = state.cart[existingItemIndex];
+        existingItem.qty -= 1;
+    
+        if (existingItem.qty === 0) {
+          state.cart.splice(existingItemIndex, 1);
+        }
+      } else {
+        state.cart.push({ ...action.payload, qty: 1 });
+      }
+    }
+    
   },
 });
 
