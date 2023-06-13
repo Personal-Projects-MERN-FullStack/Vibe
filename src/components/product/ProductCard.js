@@ -30,31 +30,30 @@ const ProductCard = ({ product, addtocart }) => {
       })
     );
   };
- 
 
   return (
-    <div class="max-w-sm rounded overflow-hidden shadow-lg ">
+    <div className="max-w-sm rounded overflow-hidden shadow-lg ">
       <Link to={`/product/${product.id}`}>
         <img
           src={`https://source.unsplash.com/400x200/?${name},,category:${category}`}
           alt="Product "
-          class="w-full cursor-pointer "
+          className="w-full cursor-pointer "
         />
       </Link>
-      <div class="px-6 py-4">
+      <div className="px-6 py-4">
         <Link to={`/product/${product.id}`}>
-          <div class="font-bold text-xl mb-2 cursor-pointer">{name}</div>
+          <div className="font-bold text-xl mb-2 cursor-pointer">{name}</div>
         </Link>
-        <p class="text-gray-700 text-base mb-4">Categories: {category}</p>
-        <p class="text-gray-700 text-base">₹ {price}</p>
+        <p className="text-gray-700 text-base mb-4">Categories: {category}</p>
+        <p className="text-gray-700 text-base">₹ {price}</p>
         {reviews.length > 0 && (
-          <div class="flex items-center mt-4">
+          <div className="flex items-center mt-4">
             {Array.from({
               length: Math.floor(calculateAverageRating(product)),
             }).map((_, i) => {
               return (
                 <svg
-                  class="text-yellow-400 fill-current"
+                  className="text-yellow-400 fill-current"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 20 20"
                   fill="currentColor"
@@ -71,7 +70,7 @@ const ProductCard = ({ product, addtocart }) => {
             }).map((_, i) => {
               return (
                 <svg
-                  class="text-gray-300 fill-current"
+                  className="text-gray-300 fill-current"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 20 20"
                   fill="currentColor"
@@ -90,13 +89,13 @@ const ProductCard = ({ product, addtocart }) => {
             {product.availability.inStock && (
               <button
                 onClick={OnAddToCartHandler}
-                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
               >
                 Add to Cart
               </button>
             )}
             {!product.availability.inStock && (
-              <button class="bg-gray-500 cursor-not-allowed hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+              <button className="bg-gray-500 cursor-not-allowed hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 Out Of Stock
               </button>
             )}

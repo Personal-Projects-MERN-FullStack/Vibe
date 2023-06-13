@@ -21,7 +21,7 @@ const ProductList = () => {
   const { search } = useParams();
   const dispatch = useDispatch();
   const Product = useSelector((state) => state.product.SearchedProducts);
-
+  const searchitem = useSelector((state) => state.ui.search);
   useEffect(() => {
     dispatch(UiSlice.updatesearchcontent(search));
   }, [dispatch, search]);
@@ -38,6 +38,12 @@ const ProductList = () => {
       });
     }
   }, [Product]);
+  useEffect(() => {
+    setFilteredProducts({
+      state: false,
+      data: [],
+    });
+  }, [searchitem]);
   function updateOrPushJsonInArray(array, json) {
     if (array.length > 0) {
       let notExist = true;
@@ -93,7 +99,7 @@ const ProductList = () => {
       filteredList.forEach((filter) => {
         for (const key in filter) {
           // console.log(key);
-          console.log(filter[key])
+          console.log(filter[key]);
           if (Array.isArray(filter[key])) {
             filteredProducts = filteredProducts.filter((product) =>
               filter[key].includes(product[key])
@@ -123,7 +129,7 @@ const ProductList = () => {
 
     let filteredProducts = [...Product.data];
     let filterp = filterProducts(filteredProducts, FilteredList);
-    
+
     if (filterp.length > 0) {
       setFilteredProducts({ status: true, data: filterp });
     } else {
@@ -184,8 +190,8 @@ const ProductList = () => {
   return (
     <>
       {!ProductAvail.status && (
-        <div class="flex items-center bg-gray-200 py-2 px-4">
-          <span class="mr-2">Sort By:</span>
+        <div className="flex items-center bg-gray-200 py-2 px-4">
+          <span className="mr-2">Sort By:</span>
           <Option
             cataname="price"
             options={Product.data}
@@ -203,7 +209,7 @@ const ProductList = () => {
           />
           {/* <button
             onClick={OnApplyHandler}
-            class="bg-blue-500 ml-4 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
+            className="bg-blue-500 ml-4 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
           >
             Apply
           </button> */}
@@ -213,7 +219,7 @@ const ProductList = () => {
         {ProductAvail.status && <LoadingSpinner message={ProductAvail.msg} />}
       </div>
       {Product.status && (
-        <div class="lg:m-8 grid grid-cols-1 gap-4 m-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+        <div className="lg:m-8 grid grid-cols-1 gap-4 m-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           {!FilteredProducts.status &&
             Product.data.map((item) => {
               return (

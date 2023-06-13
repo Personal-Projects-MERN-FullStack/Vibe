@@ -8,7 +8,7 @@ const uislice = createSlice({
             state.showcart = !state.showcart;
         },
         shownotificationbar(state,action,payload){
-            console.log(action.payload)
+            // console.log(action.payload)
             state.shownotification = action.payload
         },
         hidenotification(state,action,payload){
