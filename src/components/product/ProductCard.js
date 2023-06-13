@@ -60,6 +60,7 @@ const ProductCard = ({ product, addtocart }) => {
                   fill="currentColor"
                   width="20"
                   height="20"
+                  key={i}
                 >
                   <path d="M10 12.585L3.293 16.45l1.777-6.017L.268 6.715l6.307-.533L10 0l3.425 6.182 6.307.533-4.802 3.718 1.777 6.017L10 12.585z" />
                 </svg>
@@ -76,6 +77,7 @@ const ProductCard = ({ product, addtocart }) => {
                   fill="currentColor"
                   width="20"
                   height="20"
+                  key={i}
                 >
                   <path d="M10 12.585L3.293 16.45l1.777-6.017L.268 6.715l6.307-.533L10 0l3.425 6.182 6.307.533-4.802 3.718 1.777 6.017L10 12.585z" />
                 </svg>

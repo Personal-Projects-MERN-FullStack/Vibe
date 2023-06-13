@@ -414,6 +414,19 @@ const Producthandler = createSlice({
         data: searchJson(state.products, action.payload),
       };
     },
+    FilterProducts(state, action, payload) {
+      const setsearchedproducts = (value) => {
+        state.SearchedProducts = {
+          status: true,
+          msg: "filterd list",
+          data: value,
+        };
+      };
+     
+
+     
+    
+    },
   },
 });
 

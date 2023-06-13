@@ -7,8 +7,7 @@ const Sidecart = () => {
   const cartstate = useSelector((state) => state.ui.showcart);
   const dispatch = useDispatch();
   const onclosehandler = () => {
-    
-    dispatch(UiSlice.cartchange())
+    dispatch(UiSlice.cartchange());
   };
   return (
     <div
@@ -34,7 +33,7 @@ const Sidecart = () => {
                     class="h-6 w-6"
                     fill="none"
                     viewBox="0 0 24 24"
-                    stroke-width="1.5"
+                    strokeWidth="1.5"
                     stroke="currentColor"
                     aria-hidden="true"
                   >
