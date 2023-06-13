@@ -1,35 +1,35 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 const Chekout = () => {
   const [shippingCharges, setshippingCharges] = useState(60);
   const [pincode, setPincode] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
-  const [block, setblock] = useState("")
-
+  const [block, setblock] = useState("");
+  const cart = useSelector((state) => state.product.cart);
   const handlePincodeChange = (event) => {
     setPincode(event.target.value);
-    
-    if(event.target.value.length > 5){
-      console.log("a")
-      handleLookup()
+    handleLookup();
+    if (event.target.value.length > 5) {
     }
   };
 
   const handleLookup = async () => {
     try {
-      const response = await axios.get(`https://api.postalpincode.in/pincode/${pincode}`);
+      const response = await axios.get(
+        `https://api.postalpincode.in/pincode/${pincode}`
+      );
       const data = response.data[0];
       if (data.Status === "Success" && data.PostOffice.length > 0) {
-        console.log(data.PostOffice[0])
-        const { District, State ,Block } = data.PostOffice[0];
+        console.log(data.PostOffice[0]);
+        const { District, State, Block } = data.PostOffice[0];
         setCity(District);
         setState(State);
-        setblock(Block)
-
+        setblock(Block);
       } else {
-        setblock("")
+        setblock("");
         setCity("");
         setState("");
       }
@@ -94,20 +94,37 @@ const Chekout = () => {
                 <h3 class="text-lg font-bold mb-2">Add New Address</h3>
 
                 <form>
-                  <div class="mb-4">
-                    <label
-                      class="block text-gray-700 text-sm font-bold mb-2"
-                      for="name"
-                    >
-                      Full Name
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      class="form-input w-full"
-                      placeholder="John Doe"
-                    />
+                  <div className="flex md:space-x-8 space-x-1">
+                    <div class="mb-4">
+                      <label
+                        class="block text-gray-700 text-sm font-bold mb-2"
+                        for="name"
+                      >
+                        Full Name
+                      </label>
+                      <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        class="form-input w-full"
+                        placeholder="John Doe"
+                      />
+                    </div>
+                    <div class="mb-4">
+                      <label
+                        class="block text-gray-700 text-sm font-bold mb-2"
+                        for="name"
+                      >
+                        Phone Number
+                      </label>
+                      <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        class="form-input w-full"
+                        placeholder="John Doe"
+                      />
+                    </div>
                   </div>
 
                   <div class="mb-4">
@@ -129,21 +146,21 @@ const Chekout = () => {
                   <div class="mb-4">
                     <label
                       class="block text-gray-700 text-sm font-bold mb-2"
-                      for="address2"
+                      for="landmark"
                     >
-                      Address Line 2
+                      Landmark
                     </label>
                     <input
                       type="text"
-                      id="address2"
-                      name="address2"
+                      id="landmark"
+                      name="landmark"
                       class="form-input w-full"
-                      placeholder="Apartment, Suite, etc."
+                      placeholder="Entery Nearby Landmark."
                     />
                   </div>
 
                   <div class="grid grid-cols-2 gap-4">
-                  <div>
+                    <div>
                       <label
                         class="block text-gray-700 text-sm font-bold mb-2"
                         for="zip"
@@ -207,7 +224,6 @@ const Chekout = () => {
                         value={state}
                       />
                     </div>
-                   
                   </div>
 
                   <div class="mt-6">
@@ -226,39 +242,26 @@ const Chekout = () => {
             <div class="bg-white rounded-lg shadow-lg p-6">
               <h2 class="text-lg font-bold mb-4">Order Summary</h2>
 
-              <div class="flex justify-between mb-4">
-                <div class="flex items-center">
-                  <img
-                    src="product1.jpg"
-                    alt="Product 1"
-                    class="w-16 h-16 mr-4"
-                  />
-                  <div>
-                    <h3 class="font-bold">Product 1</h3>
-                    <p class="text-gray-500">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    </p>
+              {cart.map((item) => {
+                return (
+                  <div class="flex justify-between mb-4">
+                    <div class="flex items-center">
+                      <img
+                        src={`https://source.unsplash.com/600x400/?${item.name},category:${item.category}`}
+                        alt="Product 1"
+                        class="w-16 h-16 mr-4"
+                      />
+                      <div>
+                        <h3 class="font-bold">{item.name}</h3>
+                        <p class="text-gray-500">
+                          {item.description}
+                        </p>
+                      </div>
+                    </div>
+                    <span class="font-bold"> ₹ {item.price}</span>
                   </div>
-                </div>
-                <span class="font-bold">$19.99</span>
-              </div>
-
-              <div class="flex justify-between mb-4">
-                <div class="flex items-center">
-                  <img
-                    src="product2.jpg"
-                    alt="Product 2"
-                    class="w-16 h-16 mr-4"
-                  />
-                  <div>
-                    <h3 class="font-bold">Product 2</h3>
-                    <p class="text-gray-500">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    </p>
-                  </div>
-                </div>
-                <span class="font-bold">$29.99</span>
-              </div>
+                );
+              })}
 
               <hr class="border-t border-gray-300 my-4" />
 
