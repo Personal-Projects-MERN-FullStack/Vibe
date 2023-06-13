@@ -6,6 +6,7 @@ import { UiSlice } from "../store/ui-slice";
 
 const Cart = () => {
   const Products = useSelector((state) => state.product.cart);
+  const cartchange = useSelector(state => state.ui.showcart)
   const dispatch = useDispatch();
   const [subtotal, setSubtotal] = useState(0);
   const Getsubtotal = (items) => {
@@ -41,14 +42,14 @@ const Cart = () => {
   return (
     <div className="container mx-auto py-8">
       <h1 className="text-2xl font-bold mb-4">
-        Your Cart -
+        Your Cart 
         <Link to="/cart">
-          <button
+          {cartchange && <button
             onClick={ongotocarthandler}
             className="text-xl text-blue-900 underline"
           >
-            Go To Cart
-          </button>
+             - Go To Cart
+          </button>}
         </Link>
       </h1>
 

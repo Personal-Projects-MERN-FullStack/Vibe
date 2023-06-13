@@ -50,6 +50,7 @@ const Sidecart = () => {
                 {/* <div className="px-4 sm:px-6">
               <h2 className="text-base font-semibold leading-6 text-gray-900" id="slide-over-title">Panel title</h2>
             </div> */}
+            
                 <div className="relative mt-6 flex-1 px-4 sm:px-6">
                   <Cart />
                 </div>
