@@ -31,7 +31,10 @@ const Navbar = () => {
   const oncartbuttonhandler = () => {
     dispatch(UiSlice.cartchange());
   };
-
+  const onloginclickhandler =()=>{
+    dispatch(UiSlice.loginmodel())
+  }
+  
   return (
     <nav className="bg-gray-800 ">
       <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
@@ -75,7 +78,7 @@ const Navbar = () => {
 
           <div className="flex lg:ml-4">
             {!authticated && (
-              <div className="text-gray-300 hover:bg-gray-700 flex justify-center items-center cursor-pointer hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+              <div onClick={onloginclickhandler} className="text-gray-300 hover:bg-gray-700 flex justify-center items-center cursor-pointer hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                 Login
               </div>
             )}

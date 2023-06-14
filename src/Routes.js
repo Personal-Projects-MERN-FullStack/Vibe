@@ -10,8 +10,10 @@ import Sidecart from "./components/UI/Sidecart";
 import { useSelector } from "react-redux";
 import ProductDetails from "./pages/ProductDetails";
 import Notification from "./components/common/Notification";
+import Login from "./components/Auth/Login";
 function AppRoutes() {
   const cartstate = useSelector((state) => state.ui.showcart);
+  const loginstate = useSelector(state=>state.ui.showlogin)
   const notification_status = useSelector(state=>state.ui.shownotification)
   const routes = useRoutes([
     {
@@ -21,7 +23,7 @@ function AppRoutes() {
           <Navbar />
 
          {notification_status.active &&  <Notification ninfo={notification_status}/>}
-
+        {loginstate && <Login/>}
           {cartstate && <Sidecart />}
           <Outlet />
           <Footer />
