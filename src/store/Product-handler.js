@@ -415,20 +415,17 @@ const Producthandler = createSlice({
       };
     },
     FilterProducts(state, action, payload) {
-      const setsearchedproducts = (value) => {
-        state.SearchedProducts = {
-          status: true,
-          msg: "filterd list",
-          data: value,
-        };
-      };
-     
+   
 
      
     
     },
   },
 });
+
+
+
+
 
 export default Producthandler.reducer;
 

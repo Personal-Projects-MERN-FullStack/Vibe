@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
 const Chekout = () => {
   const [shippingCharges, setshippingCharges] = useState(60);
+  const [subtotal, setsubtotal] = useState(0)
   const [pincode, setPincode] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
@@ -37,7 +38,58 @@ const Chekout = () => {
       console.error("Error:", error);
     }
   };
+  const Getsubtotal = (items) => {
+    return items.reduce(
+      (subtotal, item) => subtotal + item.price * item.qty,
+      0
+    );
+  };
+  useEffect(() => {
+    setsubtotal(Getsubtotal(cart));
+  }, [cart]);
 
+  const loadScript = (src) =>{
+    return new Promise((resovle)=>{
+      const script = document.createElement('script')
+      script.src = src
+
+      script.onload=()=>{
+        resovle(true)
+      }
+
+      script.onerror= () =>{
+        resovle(false)
+      }
+
+      document.body.appendChild(script)
+    })
+  }
+  const showrozerpay = async (amount)=>{
+    const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js")
+    
+    if(!res){
+      alert('You are Online Dear .... Failed to Load Rozorpay ')
+      return
+    }
+    const options = {
+      key:"rzp_test_hohwVTs6y3uKSI",
+      currency :"INR",
+      amount : amount * 100,
+      name : "Vibe Store",
+      description : "Thanks For Connection With us",
+
+      handler: function (response) {
+        alert(response.razorpay_payment_id)
+        alert("payment Succefull")
+      },
+      prefill:{
+        name : "vibe store"
+      }
+    }
+
+    const paymentobject = new window.Razorpay(options)
+    paymentobject.open()
+  }
   return (
     <div>
       {/* <Locationlookup/> */}
@@ -267,7 +319,7 @@ const Chekout = () => {
 
               <div class="flex justify-between">
                 <span class="font-bold">Total</span>
-                <span class="font-bold">$49.98</span>
+                <span class="font-bold">₹ {subtotal}</span>
               </div>
             </div>
           </div>
@@ -276,7 +328,7 @@ const Chekout = () => {
             <div class="bg-white rounded-lg shadow-lg p-6">
               <h2 class="text-lg font-bold mb-4">Payment Information</h2>
 
-              <form>
+              <div>
                 <div class="mb-4">
                   <label
                     class="block text-gray-700 text-sm font-bold mb-2"
@@ -328,13 +380,14 @@ const Chekout = () => {
 
                 <div class="mt-6">
                   <button
+                    onClick={()=>{showrozerpay(subtotal)}}
                     type="submit"
                     class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                   >
                     Place Order
                   </button>
                 </div>
-              </form>
+              </div>
             </div>
           </div>
         </div>
