@@ -11,10 +11,11 @@ import { useSelector } from "react-redux";
 import ProductDetails from "./pages/ProductDetails";
 import Notification from "./components/common/Notification";
 import Login from "./components/Auth/Login";
+import ProductForm from "./components/common/ProductForm";
 function AppRoutes() {
   const cartstate = useSelector((state) => state.ui.showcart);
-  const loginstate = useSelector(state=>state.ui.showlogin)
-  const notification_status = useSelector(state=>state.ui.shownotification)
+  const loginstate = useSelector((state) => state.ui.showlogin);
+  const notification_status = useSelector((state) => state.ui.shownotification);
   const routes = useRoutes([
     {
       path: "/",
@@ -22,8 +23,10 @@ function AppRoutes() {
         <div>
           <Navbar />
 
-         {notification_status.active &&  <Notification ninfo={notification_status}/>}
-        {loginstate && <Login/>}
+          {notification_status.active && (
+            <Notification ninfo={notification_status} />
+          )}
+          {loginstate && <Login />}
           {cartstate && <Sidecart />}
           <Outlet />
           <Footer />

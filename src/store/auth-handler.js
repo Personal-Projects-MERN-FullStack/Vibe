@@ -8,9 +8,10 @@ const authhandler = createSlice({
     initialState ,
     reducers : {
         Login(state,action,payload){
-            alert("someone is trying to login ")
+            console.log(action.payload)
         }
     }
 })
 
 export default authhandler.reducer;
+export const auth = authhandler.actions;
