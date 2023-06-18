@@ -20,6 +20,7 @@ export const SignupHandler = (SignUpdata) => {
       });
 
       if (!response.ok) {
+        console.log("error ")
         throw new Error("Request failed with status " + response.status);
       }
 
