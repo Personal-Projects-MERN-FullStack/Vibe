@@ -8,6 +8,7 @@ const uislice = createSlice({
     search: "",
     showlogin: false,
     formerror: "",
+    orderplaced:false
   },
   reducers: {
     cartchange(state, action, payload) {
@@ -27,7 +28,9 @@ const uislice = createSlice({
     },
     setformerror(state, action, payload) {
       state.formerror = action.payload;
-    },
+    },setorderplaced(state,action,payload){
+      state.orderplaced = !state.orderplaced
+    }
   },
 });
 
