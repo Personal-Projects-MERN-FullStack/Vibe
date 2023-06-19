@@ -5,6 +5,7 @@ import { pd } from "../../store/Product-handler";
 import { UiSlice } from "../../store/ui-slice";
 const ProductCard = ({ product, addtocart }) => {
   const dispatch = useDispatch();
+  const auth = useSelector(state=>state.auth.auth)
   const { name, category, reviews, price } = product;
   function calculateAverageRating(product) {
     if (!product.reviews || product.reviews.length === 0) {
@@ -20,7 +21,8 @@ const ProductCard = ({ product, addtocart }) => {
     return averageRating;
   }
   const OnAddToCartHandler = () => {
-    dispatch(pd.AddToCart(product, "something"));
+    if(auth){
+      dispatch(pd.AddToCart(product));
     dispatch(
       UiSlice.shownotificationbar({
         active: true,
@@ -29,6 +31,15 @@ const ProductCard = ({ product, addtocart }) => {
         pathname: "Chekout The Product on Cart",
       })
     );
+    }else{
+      dispatch(
+        UiSlice.shownotificationbar({
+          active: true,
+          msg: `You are Not Logged In`,
+          path: "/",
+          pathname: "Login First",
+        }))
+    }
   };
 
   return (

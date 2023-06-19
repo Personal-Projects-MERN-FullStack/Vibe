@@ -34,7 +34,9 @@ function AppRoutes() {
           <Footer />
         </div>
       ),
-      children: [{ path: "/", element: <Home /> }],
+      children: [{ path: "/", element: <Home /> },
+      { path: "/product-search/:search", element: <ProductList /> },
+      { path: "/product/:id", element: <ProductDetails /> },],
     },
     {
       path: "/cart",
@@ -50,10 +52,10 @@ function AppRoutes() {
           path: "/cart",
           element: <Cart />,
         },
+        
       ],
     },
-    { path: "/product-search/:search", element: <ProductList /> },
-    { path: "/product/:id", element: <ProductDetails /> },
+    
     {
       path: "/checkout",
       element: (

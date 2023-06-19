@@ -92,7 +92,7 @@ const Navbar = () => {
             )}
             <div
               href="s"
-              className="ml-4  text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-2xl font-medium"
+              className="ml-4 flex items-center justify-center  text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-2xl font-medium"
             >
               <button onClick={oncartbuttonhandler}>
                 <AiOutlineShoppingCart />
