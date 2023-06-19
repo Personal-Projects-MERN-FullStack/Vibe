@@ -1,20 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { pd } from "../store/Product-handler";
 import { UiSlice } from "../store/ui-slice";
 
 const Cart = () => {
   const Products = useSelector((state) => state.product.cart);
   const cartchange = useSelector(state => state.ui.showcart)
+  const auth = useSelector(state=>state.auth.auth)
+  const navigate = useNavigate()
   const dispatch = useDispatch();
   const [subtotal, setSubtotal] = useState(0);
+
   const Getsubtotal = (items) => {
     return items.reduce(
       (subtotal, item) => subtotal + item.price * item.qty,
       0
     );
   };
+
+  
   useEffect(() => {
     setSubtotal(Getsubtotal(Products));
   }, [Products]);
@@ -39,6 +44,8 @@ const Cart = () => {
   const ongotocarthandler = () => {
     dispatch(UiSlice.cartchange());
   };
+
+
   return (
     <div className="container mx-auto py-8">
       <h1 className="text-2xl font-bold mb-4">

@@ -4,6 +4,7 @@ import { AiOutlineShoppingCart } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 import { UiSlice } from "../../store/ui-slice";
 import { pd } from "../../store/Product-handler";
+import { auth } from "../../store/auth-handler";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -34,7 +35,9 @@ const Navbar = () => {
   const onloginclickhandler =()=>{
     dispatch(UiSlice.loginmodel())
   }
-  
+  const onlogouthandler = () =>{
+    dispatch(auth.Logout())
+  }
   return (
     <nav className="bg-gray-800 ">
       <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
@@ -83,7 +86,7 @@ const Navbar = () => {
               </div>
             )}
             {authticated && (
-              <div className="text-gray-300 hover:bg-gray-700 flex justify-center items-center cursor-pointer hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+              <div onClick={onlogouthandler} className="text-gray-300 hover:bg-gray-700 flex justify-center items-center cursor-pointer hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                 Logout
               </div>
             )}

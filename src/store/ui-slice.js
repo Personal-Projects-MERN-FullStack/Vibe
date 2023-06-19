@@ -6,7 +6,8 @@ const uislice = createSlice({
     showcart: false,
     shownotification: { active: false, msg: "", path: "", pathname: "" },
     search: "",
-    showlogin:false
+    showlogin: false,
+    formerror: "",
   },
   reducers: {
     cartchange(state, action, payload) {
@@ -16,14 +17,17 @@ const uislice = createSlice({
       // console.log(action.payload)
       state.shownotification = action.payload;
     },
-    hidenotification(state, action, payload) {},
+
     updatesearchcontent(state, action, payload) {
       // console.log(action.payload)
       state.search = action.payload;
     },
-    loginmodel(state,action,payload){
-        state.showlogin = !state.showlogin;
-    }
+    loginmodel(state, action, payload) {
+      state.showlogin = !state.showlogin;
+    },
+    setformerror(state, action, payload) {
+      state.formerror = action.payload;
+    },
   },
 });
 
