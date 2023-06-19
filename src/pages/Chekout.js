@@ -1,28 +1,56 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useSelector } from "react-redux";
-
+import { useSelector, useDispatch } from "react-redux";
+// import { useDispatch, useSelector } from "react-redux";
+import { UiSlice } from "../store/ui-slice";
+import { pd } from "../store/Product-handler";
+import { Link, useNavigate } from "react-router-dom";
+import uiSlice from "../store/ui-slice";
 const Chekout = () => {
   const [shippingCharges, setshippingCharges] = useState(60);
+  const [Address, setAddress] = useState([
+    {
+      id: 1,
+      fullname: "vaibhav Mohanalkar",
+      Phone_Number: 9284378620,
+      address1: "yamuna socity , old ausa road , latur, 413512 ",
+      landmark: "Next lane of sai baba mandir",
+      pincode: "413512",
+      block: "Gangakhed",
+      city: "latur",
+      state: "Maharastra",
+    },
+  ]);
   const [subtotal, setsubtotal] = useState(0);
   const [pincode, setPincode] = useState("");
   const [city, setCity] = useState("");
+  const [selectedAdress, setselectedAdress] = useState();
   const [state, setState] = useState("");
   const [block, setblock] = useState("");
   const cart = useSelector((state) => state.product.cart);
+  const [orderplaced, setorderplaced] = useState(false);
+  const [citygotted, setcitygotted] = useState(true);
+  const [AdressCardShow, setAdressCardShow] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const OnorderplacedSuccesfully = () => {
+    navigate("/OrderPlaced");
+    dispatch(pd.ClearCart());
+    dispatch(UiSlice.setorderplaced());
+  };
   const handlePincodeChange = (event) => {
     setPincode(event.target.value);
     handleLookup();
     if (event.target.value.length > 5) {
     }
   };
-  useEffect(()=>{
-    if(subtotal >499){
-      setshippingCharges(0)
-    }else{
-      setshippingCharges(80)
+  useEffect(() => {
+    if (subtotal > 499) {
+      setshippingCharges(0);
+    } else {
+      setshippingCharges(80);
     }
-  },[cart,subtotal])
+  }, [cart, subtotal]);
   const handleLookup = async () => {
     try {
       const response = await axios.get(
@@ -30,15 +58,19 @@ const Chekout = () => {
       );
       const data = response.data[0];
       if (data.Status === "Success" && data.PostOffice.length > 0) {
-        console.log(data.PostOffice[0]);
         const { District, State, Block } = data.PostOffice[0];
+
         setCity(District);
         setState(State);
         setblock(Block);
+        setcitygotted(true);
+        return;
       } else {
+        setcitygotted(false);
         setblock("");
         setCity("");
         setState("");
+        return;
       }
     } catch (error) {
       console.error("Error:", error);
@@ -76,7 +108,7 @@ const Chekout = () => {
     );
 
     if (!res) {
-      alert("You are Online Dear .... Failed to Load Rozorpay ");
+      alert("You are Offline Dear .... Failed to Load Rozorpay ");
       return;
     }
     const options = {
@@ -85,269 +117,372 @@ const Chekout = () => {
       amount: amount * 100,
       name: "Vibe Store",
       description: "Thanks For Connection With us",
+      modal: true,
 
       handler: function (response) {
-        alert(response.razorpay_payment_id);
-        alert("payment Succefull");
+        if (response.razorpay_payment_id) {
+          OnorderplacedSuccesfully();
+        } else {
+          dispatch(
+            UiSlice.shownotificationbar({
+              active: true,
+              msg: `You are Not Logged in`,
+              path: "/",
+              pathname: "login to see cart",
+            })
+          );
+        }
       },
+
       prefill: {
-        name: "vibe store",
+        name: selectedAdress.fullname,
+        email: selectedAdress.email,
+        contact: selectedAdress.Phone_Number,
+        address:
+          selectedAdress.Address +
+          " , " +
+          selectedAdress.city +
+          "," +
+          selectedAdress.state +
+          " , " +
+          selectedAdress.pincode,
       },
     };
 
     const paymentobject = new window.Razorpay(options);
     paymentobject.open();
   };
-  return (
-    <div>
-      {/* <Locationlookup/> */}
-      <div class="container mx-auto px-4 py-8">
-        <h1 class="text-2xl font-bold mb-4">Checkout</h1>
+  const OnAddresAddHandler = (e) => {
+    e.preventDefault();
+    handleLookup().then(() => {
+      if (citygotted) {
+        setAddress([...Address, newAdress]);
+        document.getElementById("myForm").reset();
+        setAdressCardShow(false);
+        dispatch(
+          UiSlice.shownotificationbar({
+            active: true,
+            msg: `Adress Added Succefully`,
+            path: "Select One Adress to CheckOut",
+            pathname: "",
+          })
+        );
+      } else {
+        console.log("tatti");
+      }
+    });
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div class="col-span-2">
-            <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
-              <h2 class="text-lg font-bold mb-4">Shipping Address</h2>
+    const newAdress = {
+      id: Math.floor(Math.random() * (5000 - 1000) + 1000),
+      fullname: e.target.name.value,
+      Phone_Number: e.target.phone.value,
+      address1: e.target.address.value,
+      landmark: e.target.landmark.value,
+      pincode: e.target.zip.value,
+      block,
+      city,
+      state,
+    };
+  };
 
-              <div class="mb-6">
-                <h3 class="text-lg font-bold mb-2">Saved Addresses</h3>
-                <ul class="space-y-2">
-                  <li>
-                    <div class="flex items-center">
-                      <input
-                        type="radio"
-                        id="address1"
-                        name="address"
-                        class="form-radio mr-2"
-                        checked
-                      />
-                      <label for="address1" class="font-bold">
-                        John Doe
-                      </label>
-                      <span class="text-gray-500 ml-2">
-                        123 Main St, New York, 12345, United States
-                      </span>
-                    </div>
-                  </li>
-               
-                </ul>
+  if (!orderplaced) {
+    return (
+      <div>
+        {/* <Locationlookup/> */}
+        <div class="container mx-auto px-4 py-8">
+          <h1 class="text-2xl font-bold mb-4">Checkout</h1>
+
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="col-span-2">
+              <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+                <h2 class="text-lg font-bold mb-4">Shipping Address</h2>
+
+                <div class="mb-6">
+                  <h3 class="text-lg font-bold mb-2">Saved Addresses</h3>
+                  {Address.length === 0 && (
+                    <p className="text-red-500 ">You have no saved addresses</p>
+                  )}
+                  <ul class="space-y-2">
+                    {Address.length > 0 &&
+                      Address.map((add) => {
+                        return (
+                          <li key={add.id}>
+                            <div class="flex items-center">
+                              <input
+                                type="radio"
+                                id="address1"
+                                name="address"
+                                class="form-radio mr-2"
+                                onChange={() => {
+                                  setselectedAdress(add);
+                                }}
+                              />
+                              <label for="address1" class="font-bold">
+                                {add.name}
+                              </label>
+                              <span class="text-gray-500 ml-2">
+                                {add.address1}
+                              </span>
+                            </div>
+                          </li>
+                        );
+                      })}
+                  </ul>
+                </div>
+
+                <hr class="border-t border-gray-300 my-4" />
+                {!AdressCardShow && (
+                  <button
+                    onClick={() => {
+                      setAdressCardShow(true);
+                    }}
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  >
+                    Add New Address
+                  </button>
+                )}
+
+                {AdressCardShow && (
+                  <div>
+                    <h3 class="text-lg font-bold mb-2">Add New Address</h3>
+
+                    <form onSubmit={OnAddresAddHandler} id="myForm">
+                      <div className="flex md:space-x-8 space-x-1">
+                        <div class="mb-4">
+                          <label
+                            class="block text-gray-700 text-sm font-bold mb-2"
+                            for="name"
+                          >
+                            Full Name
+                          </label>
+                          <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            class="form-input w-full"
+                            placeholder="John Doe"
+                            required
+                          />
+                        </div>
+                        <div class="mb-4">
+                          <label
+                            class="block text-gray-700 text-sm font-bold mb-2"
+                            for="name"
+                          >
+                            Phone Number
+                          </label>
+                          <input
+                            type="text"
+                            id="phone"
+                            name="phone"
+                            class="form-input w-full"
+                            placeholder="John Doe"
+                            required
+                          />
+                        </div>
+                      </div>
+
+                      <div class="mb-4">
+                        <label
+                          class="block text-gray-700 text-sm font-bold mb-2"
+                          for="address"
+                        >
+                          Address Line 1
+                        </label>
+                        <input
+                          type="text"
+                          id="address"
+                          name="address"
+                          class="form-input w-full"
+                          placeholder="123 Main St"
+                          required
+                        />
+                      </div>
+
+                      <div class="mb-4">
+                        <label
+                          class="block text-gray-700 text-sm font-bold mb-2"
+                          for="landmark"
+                        >
+                          Landmark
+                        </label>
+                        <input
+                          type="text"
+                          id="landmark"
+                          name="landmark"
+                          class="form-input w-full"
+                          placeholder="Entery Nearby Landmark."
+                          required
+                        />
+                      </div>
+
+                      <div class="grid grid-cols-2 gap-4">
+                        <div>
+                          <label
+                            class="block text-gray-700 text-sm font-bold mb-2"
+                            for="zip"
+                          >
+                            ZIP Code
+                          </label>
+                          <input
+                            
+                            type="text"
+                            id="zip"
+                            name="zip"
+                            class="form-input w-full"
+                            placeholder="12345"
+                            required
+                          />
+                        </div>
+                        {!citygotted && (
+                          <p className="text-red-500">Wrong pin code</p>
+                        )}
+                      </div>
+
+                      <div class="mt-6">
+                        <button
+                          type="submit"
+                          class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        >
+                          Add Address
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                )}
               </div>
 
-              <hr class="border-t border-gray-300 my-4" />
+              <div class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-lg font-bold mb-4">Order Summary</h2>
 
-              <div>
-                <h3 class="text-lg font-bold mb-2">Add New Address</h3>
+                {cart.map((item) => {
+                  return (
+                    <div class="flex justify-between mb-4">
+                      <div class="flex items-center">
+                        <img
+                          src={`https://source.unsplash.com/600x400/?${item.name},category:${item.category}`}
+                          alt="Product 1"
+                          class="w-16 h-16 mr-4"
+                        />
+                        <div>
+                          <h3 class="font-bold">{item.name}</h3>
+                          <p class="text-gray-500">{item.description}</p>
+                        </div>
+                      </div>
+                      <span class="font-bold"> ₹ {item.price}</span>
+                    </div>
+                  );
+                })}
 
-                <form>
-                  <div className="flex md:space-x-8 space-x-1">
-                    <div class="mb-4">
-                      <label
-                        class="block text-gray-700 text-sm font-bold mb-2"
-                        for="name"
-                      >
-                        Full Name
-                      </label>
-                      <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        class="form-input w-full"
-                        placeholder="John Doe"
-                      />
-                    </div>
-                    <div class="mb-4">
-                      <label
-                        class="block text-gray-700 text-sm font-bold mb-2"
-                        for="name"
-                      >
-                        Phone Number
-                      </label>
-                      <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        class="form-input w-full"
-                        placeholder="John Doe"
-                      />
-                    </div>
-                  </div>
+                <hr class="border-t border-gray-300 my-4" />
 
-                  <div class="mb-4">
-                    <label
-                      class="block text-gray-700 text-sm font-bold mb-2"
-                      for="address"
-                    >
-                      Address Line 1
-                    </label>
-                    <input
-                      type="text"
-                      id="address"
-                      name="address"
-                      class="form-input w-full"
-                      placeholder="123 Main St"
-                    />
-                  </div>
+                <div class="flex justify-between">
+                  <span class="font-bold">Total</span>
+                  <span class="font-bold">₹ {subtotal}</span>
+                </div>
+              </div>
+            </div>
 
-                  <div class="mb-4">
-                    <label
-                      class="block text-gray-700 text-sm font-bold mb-2"
-                      for="landmark"
-                    >
-                      Landmark
-                    </label>
-                    <input
-                      type="text"
-                      id="landmark"
-                      name="landmark"
-                      class="form-input w-full"
-                      placeholder="Entery Nearby Landmark."
-                    />
-                  </div>
-
-                  <div class="grid grid-cols-2 gap-4">
-                    <div>
-                      <label
-                        class="block text-gray-700 text-sm font-bold mb-2"
-                        for="zip"
-                      >
-                        ZIP Code
-                      </label>
-                      <input
-                        onChange={handlePincodeChange}
-                        type="text"
-                        id="zip"
-                        name="zip"
-                        class="form-input w-full"
-                        placeholder="12345"
-                      />
-                    </div>
-                    <div>
-                      <label
-                        class="block text-gray-700 text-sm font-bold mb-2"
-                        for="city"
-                      >
-                        Village
-                      </label>
-                      <input
-                        type="text"
-                        id="city"
-                        name="city"
-                        class="form-input w-full"
-                        placeholder="New York"
-                        value={block}
-                      />
-                    </div>
-                    <div>
-                      <label
-                        class="block text-gray-700 text-sm font-bold mb-2"
-                        for="city"
-                      >
-                        City
-                      </label>
-                      <input
-                        type="text"
-                        id="city"
-                        name="city"
-                        class="form-input w-full"
-                        placeholder="New York"
-                        value={city}
-                      />
-                    </div>
-                    <div>
-                      <label
-                        class="block text-gray-700 text-sm font-bold mb-2"
-                        for="city"
-                      >
-                        state
-                      </label>
-                      <input
-                        type="text"
-                        id="city"
-                        name="city"
-                        class="form-input w-full"
-                        placeholder="New York"
-                        value={state}
-                      />
-                    </div>
-                  </div>
-
-                  <div class="mt-6">
+            <div class="col-span-1">
+              <div class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-lg font-bold mb-4">Payment Information</h2>
+                <div class="flex justify-between">
+                  <span class="text-sm font-sans">Total Product Bill</span>
+                  <span class="font-semibold">₹ {subtotal}</span>
+                </div>
+                <div
+                  class={`flex justify-between ${
+                    shippingCharges === 0 ? "line-through" : ""
+                  } `}
+                >
+                  <span class="text-sm font-sans">Shipping charges</span>
+                  <span class="font-semibold">₹ {shippingCharges}</span>
+                </div>
+                <hr className="my-2" />
+                <div class="flex justify-between">
+                  <span class="font-bold">Total Payment</span>
+                  <span class="font-bold">₹ {subtotal + shippingCharges}</span>
+                </div>
+                {shippingCharges > 0 && (
+                  <p className="text-green-500">
+                    Add ₹ {500 - subtotal} more for free shipping!
+                  </p>
+                )}
+                {shippingCharges === 0 && (
+                  <p className="text-green-500">Enjoy free shipping!</p>
+                )}
+                <div class="mt-6">
+                  {selectedAdress && (
                     <button
-                      type="button"
-                      onClick={handleLookup}
+                      onClick={() => {
+                        showrozerpay(subtotal);
+                      }}
+                      type="submit"
                       class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                     >
-                      Add Address
+                      Place Order
                     </button>
-                  </div>
-                </form>
-              </div>
-            </div>
-
-            <div class="bg-white rounded-lg shadow-lg p-6">
-              <h2 class="text-lg font-bold mb-4">Order Summary</h2>
-
-              {cart.map((item) => {
-                return (
-                  <div class="flex justify-between mb-4">
-                    <div class="flex items-center">
-                      <img
-                        src={`https://source.unsplash.com/600x400/?${item.name},category:${item.category}`}
-                        alt="Product 1"
-                        class="w-16 h-16 mr-4"
-                      />
-                      <div>
-                        <h3 class="font-bold">{item.name}</h3>
-                        <p class="text-gray-500">{item.description}</p>
-                      </div>
-                    </div>
-                    <span class="font-bold"> ₹ {item.price}</span>
-                  </div>
-                );
-              })}
-
-              <hr class="border-t border-gray-300 my-4" />
-
-              <div class="flex justify-between">
-                <span class="font-bold">Total</span>
-                <span class="font-bold">₹ {subtotal}</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-span-1">
-            <div class="bg-white rounded-lg shadow-lg p-6">
-              <h2 class="text-lg font-bold mb-4">Payment Information</h2>
-              <div class="flex justify-between">
-                <span class="text-sm font-sans">Total Product Bill</span>
-                <span class="font-semibold">₹ {subtotal}</span>
-              </div>
-              <div class={`flex justify-between ${(shippingCharges === 0)? "line-through":""} `}>
-                <span class="text-sm font-sans">Shipping charges</span>
-                <span class="font-semibold">₹ {shippingCharges}</span>
-              </div>
-              <hr className="my-2"/>
-              <div class="flex justify-between">
-                <span class="font-bold">Total Payment</span>
-                <span class="font-bold">₹ {subtotal+shippingCharges}</span>
-              </div>
-              {shippingCharges > 0 && <p className="text-green-500">Add ₹ {500-subtotal} more for free shipping!</p>}
-              {shippingCharges === 0 && <p className="text-green-500">Enjoy free shipping!</p>}
-              <div class="mt-6">
-                  <button
-                    onClick={()=>{showrozerpay(subtotal)}}
-                    type="submit"
-                    class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                  >
-                    Place Order
-                  </button>
+                  )}
+                  {!selectedAdress && (
+                    <>
+                      <button
+                        type="submit"
+                        class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                      >
+                        Place Order
+                      </button>
+                      <p className="text-red-500">Select Atleast One Adress</p>
+                    </>
+                  )}
                 </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  } else {
+    return (
+      <div class="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
+        <div class="max-w-md w-full bg-white p-8 rounded shadow-lg">
+          <div class="text-center">
+            <svg
+              class="h-12 w-12 text-green-500 mx-auto"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
+              ></path>
+            </svg>
+            <h2 class="mt-4 text-2xl font-bold text-gray-800">
+              Order Placed Successfully
+            </h2>
+          </div>
+          <div class="mt-8">
+            <p class="text-lg text-gray-700 text-center">
+              Thank you for your order!
+            </p>
+            <p class="text-sm text-gray-500 text-center">
+              Your order has been successfully placed.
+            </p>
+          </div>
+          <div class="mt-8 flex justify-center">
+            <Link
+              to="/"
+              class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+            >
+              Continue Shopping
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
 };
 
 export default Chekout;
