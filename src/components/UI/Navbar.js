@@ -11,6 +11,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const authticated = useSelector((state) => state.auth.auth);
   const searchcontent = useSelector((state) => state.ui.search);
+  const cart = useSelector(state=>state.product.cart.length)
   useEffect(() => {
     onsearchhandlerfun(searchcontent);
   }, [searchcontent]);
@@ -30,14 +31,23 @@ const Navbar = () => {
   };
 
   const oncartbuttonhandler = () => {
+    if(!authticated){
+      dispatch(
+        UiSlice.shownotificationbar({
+          active: true,
+          msg: `You are Not Logged in`,
+          path: "/",
+          pathname: "login to see cart",
+        }))
+    }
     dispatch(UiSlice.cartchange());
   };
-  const onloginclickhandler =()=>{
-    dispatch(UiSlice.loginmodel())
-  }
-  const onlogouthandler = () =>{
-    dispatch(auth.Logout())
-  }
+  const onloginclickhandler = () => {
+    dispatch(UiSlice.loginmodel());
+  };
+  const onlogouthandler = () => {
+    dispatch(auth.Logout());
+  };
   return (
     <nav className="bg-gray-800 ">
       <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
@@ -81,22 +91,32 @@ const Navbar = () => {
 
           <div className="flex lg:ml-4">
             {!authticated && (
-              <div onClick={onloginclickhandler} className="text-gray-300 hover:bg-gray-700 flex justify-center items-center cursor-pointer hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+              <div
+                onClick={onloginclickhandler}
+                className="text-gray-300 hover:bg-gray-700 flex justify-center items-center cursor-pointer hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+              >
                 Login
               </div>
             )}
             {authticated && (
-              <div onClick={onlogouthandler} className="text-gray-300 hover:bg-gray-700 flex justify-center items-center cursor-pointer hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+              <div
+                onClick={onlogouthandler}
+                className="text-gray-300 hover:bg-gray-700 flex justify-center items-center cursor-pointer hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+              >
                 Logout
               </div>
             )}
-            <div
-              href="s"
-              className="ml-4 flex items-center justify-center  text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-2xl font-medium"
-            >
-              <button onClick={oncartbuttonhandler}>
+            <div className="relative">
+              <button
+                className="flex items-center justify-center text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-2xl font-medium"
+                onClick={oncartbuttonhandler}
+              >
                 <AiOutlineShoppingCart />
               </button>
+
+              <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center">
+               {cart}
+              </span>
             </div>
           </div>
         </div>

@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 const Chekout = () => {
   const [shippingCharges, setshippingCharges] = useState(60);
-  const [subtotal, setsubtotal] = useState(0)
+  const [subtotal, setsubtotal] = useState(0);
   const [pincode, setPincode] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
@@ -16,7 +16,13 @@ const Chekout = () => {
     if (event.target.value.length > 5) {
     }
   };
-
+  useEffect(()=>{
+    if(subtotal >499){
+      setshippingCharges(0)
+    }else{
+      setshippingCharges(80)
+    }
+  },[cart,subtotal])
   const handleLookup = async () => {
     try {
       const response = await axios.get(
@@ -48,48 +54,50 @@ const Chekout = () => {
     setsubtotal(Getsubtotal(cart));
   }, [cart]);
 
-  const loadScript = (src) =>{
-    return new Promise((resovle)=>{
-      const script = document.createElement('script')
-      script.src = src
+  const loadScript = (src) => {
+    return new Promise((resovle) => {
+      const script = document.createElement("script");
+      script.src = src;
 
-      script.onload=()=>{
-        resovle(true)
-      }
+      script.onload = () => {
+        resovle(true);
+      };
 
-      script.onerror= () =>{
-        resovle(false)
-      }
+      script.onerror = () => {
+        resovle(false);
+      };
 
-      document.body.appendChild(script)
-    })
-  }
-  const showrozerpay = async (amount)=>{
-    const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js")
-    
-    if(!res){
-      alert('You are Online Dear .... Failed to Load Rozorpay ')
-      return
+      document.body.appendChild(script);
+    });
+  };
+  const showrozerpay = async (amount) => {
+    const res = await loadScript(
+      "https://checkout.razorpay.com/v1/checkout.js"
+    );
+
+    if (!res) {
+      alert("You are Online Dear .... Failed to Load Rozorpay ");
+      return;
     }
     const options = {
-      key:"rzp_test_hohwVTs6y3uKSI",
-      currency :"INR",
-      amount : amount * 100,
-      name : "Vibe Store",
-      description : "Thanks For Connection With us",
+      key: "rzp_test_hohwVTs6y3uKSI",
+      currency: "INR",
+      amount: amount * 100,
+      name: "Vibe Store",
+      description: "Thanks For Connection With us",
 
       handler: function (response) {
-        alert(response.razorpay_payment_id)
-        alert("payment Succefull")
+        alert(response.razorpay_payment_id);
+        alert("payment Succefull");
       },
-      prefill:{
-        name : "vibe store"
-      }
-    }
+      prefill: {
+        name: "vibe store",
+      },
+    };
 
-    const paymentobject = new window.Razorpay(options)
-    paymentobject.open()
-  }
+    const paymentobject = new window.Razorpay(options);
+    paymentobject.open();
+  };
   return (
     <div>
       {/* <Locationlookup/> */}
@@ -121,22 +129,7 @@ const Chekout = () => {
                       </span>
                     </div>
                   </li>
-                  <li>
-                    <div class="flex items-center">
-                      <input
-                        type="radio"
-                        id="address2"
-                        name="address"
-                        class="form-radio mr-2"
-                      />
-                      <label for="address2" class="font-bold">
-                        Jane Smith
-                      </label>
-                      <span class="text-gray-500 ml-2">
-                        456 Elm St, Los Angeles, 67890, United States
-                      </span>
-                    </div>
-                  </li>
+               
                 </ul>
               </div>
 
@@ -305,9 +298,7 @@ const Chekout = () => {
                       />
                       <div>
                         <h3 class="font-bold">{item.name}</h3>
-                        <p class="text-gray-500">
-                          {item.description}
-                        </p>
+                        <p class="text-gray-500">{item.description}</p>
                       </div>
                     </div>
                     <span class="font-bold"> ₹ {item.price}</span>
@@ -327,58 +318,22 @@ const Chekout = () => {
           <div class="col-span-1">
             <div class="bg-white rounded-lg shadow-lg p-6">
               <h2 class="text-lg font-bold mb-4">Payment Information</h2>
-
-              <div>
-                <div class="mb-4">
-                  <label
-                    class="block text-gray-700 text-sm font-bold mb-2"
-                    for="card"
-                  >
-                    Card Number
-                  </label>
-                  <input
-                    type="text"
-                    id="card"
-                    name="card"
-                    class="form-input w-full"
-                    placeholder="1234 5678 9012 3456"
-                  />
-                </div>
-
-                <div class="grid grid-cols-2 gap-4">
-                  <div>
-                    <label
-                      class="block text-gray-700 text-sm font-bold mb-2"
-                      for="expiry"
-                    >
-                      Expiry Date
-                    </label>
-                    <input
-                      type="text"
-                      id="expiry"
-                      name="expiry"
-                      class="form-input w-full"
-                      placeholder="MM/YY"
-                    />
-                  </div>
-                  <div>
-                    <label
-                      class="block text-gray-700 text-sm font-bold mb-2"
-                      for="cvv"
-                    >
-                      CVV
-                    </label>
-                    <input
-                      type="text"
-                      id="cvv"
-                      name="cvv"
-                      class="form-input w-full"
-                      placeholder="123"
-                    />
-                  </div>
-                </div>
-
-                <div class="mt-6">
+              <div class="flex justify-between">
+                <span class="text-sm font-sans">Total Product Bill</span>
+                <span class="font-semibold">₹ {subtotal}</span>
+              </div>
+              <div class={`flex justify-between ${(shippingCharges === 0)? "line-through":""} `}>
+                <span class="text-sm font-sans">Shipping charges</span>
+                <span class="font-semibold">₹ {shippingCharges}</span>
+              </div>
+              <hr className="my-2"/>
+              <div class="flex justify-between">
+                <span class="font-bold">Total Payment</span>
+                <span class="font-bold">₹ {subtotal+shippingCharges}</span>
+              </div>
+              {shippingCharges > 0 && <p className="text-green-500">Add ₹ {500-subtotal} more for free shipping!</p>}
+              {shippingCharges === 0 && <p className="text-green-500">Enjoy free shipping!</p>}
+              <div class="mt-6">
                   <button
                     onClick={()=>{showrozerpay(subtotal)}}
                     type="submit"
@@ -387,7 +342,6 @@ const Chekout = () => {
                     Place Order
                   </button>
                 </div>
-              </div>
             </div>
           </div>
         </div>
