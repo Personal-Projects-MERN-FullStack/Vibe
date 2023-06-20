@@ -6,6 +6,7 @@ import { UiSlice } from "../store/ui-slice";
 
 const Cart = () => {
   const Products = useSelector((state) => state.product.cart);
+ 
   const cartchange = useSelector((state) => state.ui.showcart);
   const auth = useSelector((state) => state.auth.auth);
   const navigate = useNavigate();
@@ -72,6 +73,7 @@ const Cart = () => {
           </thead>
           <tbody>
             {Products.map((item) => {
+              // console.log(item.qty)
               return (
                 <tr>
                   <td className="py-2 px-4 border-b">
@@ -141,7 +143,6 @@ const Cart = () => {
         {Products.length > 0 && (
           <Link
             to="/checkout"
-          
             className="text-white bg-blue-500 py-2 px-4 rounded hover:bg-blue-600 mt-2 md:mt-0"
           >
             Proceed to Checkout

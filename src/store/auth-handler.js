@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 let initialState = {
   auth: false,
   authtoken: "",
+  user:{}
 };
 const authhandler = createSlice({
   name: "auth",
@@ -13,11 +14,17 @@ const authhandler = createSlice({
     },
     Logout(state, action, payload) {
         localStorage.removeItem('authtoken');
-        state.auth = false
+        localStorage.removeItem('user');
+        state.auth = false;
+        state.user = {}
     },
     setauthtoken(state, action, payload) {
         state.authtoken = action.payload
     },
+    setuser(state,action,payload){
+      state.user = action.payload
+    }
+    
   },
 });
 

@@ -28,7 +28,7 @@ const uislice = createSlice({
       state.search = action.payload;
     },
     loginmodel(state, action, payload) {
-      console.log(action.payload)
+      // console.log(action.payload)
      if(!action.payload){
     
       state.showlogin = false

@@ -4,18 +4,23 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { auth } from "./store/auth-handler";
 import { UiSlice } from "./store/ui-slice";
+import {  UploadCart, updateCartItems } from "./store/Actions/proudct-action";
 
 function App() {
-
-  const authtoken = useSelector((state) => state.auth.authtoken);
   const dispatch = useDispatch();
- 
+  const authed = useSelector(state=>state.auth.auth)
+  const cart = useSelector((state) => state.product.cart);
+  const [ucart, setucart] = useState(false)
   useEffect(() => {
+    setucart(true)
     const authtoken = localStorage.getItem("authtoken");
+    const user = localStorage.getItem("user");
 
     if (authtoken) {
-      dispatch(UiSlice.loginmodel(false))
-      dispatch(auth.Login())
+      dispatch(UiSlice.loginmodel(false));
+      dispatch(auth.setuser(JSON.parse(user)));
+      dispatch(auth.Login());
+
       dispatch(
         UiSlice.shownotificationbar({
           active: true,
@@ -25,15 +30,25 @@ function App() {
         })
       );
     } else {
-      dispatch(auth.Logout())
+      dispatch(auth.Logout());
     }
   }, [dispatch]);
+  useEffect(() => {
+    const user = localStorage.getItem("user");
 
+    dispatch(updateCartItems(JSON.parse(user)));
+  }, [authed,dispatch]);
 
-  
-
-
-
+  useEffect(()=>{
+    
+    const user = localStorage.getItem("user");
+    if(ucart){
+     const userp =JSON.parse(user)
+     
+    dispatch(  UploadCart(userp,cart))
+    }
+   
+  },[cart,dispatch,authed])
   return (
     <Router>
       <Routes />

@@ -343,13 +343,14 @@ let initialState = {
   products,
   product: {},
   cart: [],
+  orders:[]
 };
 const Producthandler = createSlice({
   name: "product",
   initialState,
   reducers: {
-    UpdateCart(state, action) {
-      state.cart = action.payload;
+    UpdateCart(state, action,payload) {
+      state.cart = [...action.payload]
     },
     GetProduct(state, action) {
       state.product = state.products.filter(
@@ -414,12 +415,9 @@ const Producthandler = createSlice({
         data: searchJson(state.products, action.payload),
       };
     },
-    FilterProducts(state, action, payload) {
-   
-
-     
-    
-    },
+    setorders(state,action,payload){
+      console.log(action.payload)
+    }
   },
 });
 

@@ -2,6 +2,8 @@ import { auth } from "../auth-handler";
 import { UiSlice } from "../ui-slice";
 const apiurl = process.env.REACT_APP_API_KEY;
 console.log(apiurl);
+
+
 export const LoginHanlder = (Logindata) => {
   return async (dispatch) => {
     const response = await fetch(`https://vibe-backend-83cg.onrender.com/auth/Login`, {
@@ -17,6 +19,7 @@ export const LoginHanlder = (Logindata) => {
     } else {
       dispatch(UiSlice.setformerror(""));
       localStorage.setItem("authtoken", responseData.authtoken);
+      localStorage.setItem("user", JSON.stringify(responseData.user));
       dispatch(
         UiSlice.shownotificationbar({
           active: true,
@@ -25,9 +28,8 @@ export const LoginHanlder = (Logindata) => {
           pathname: "Enjoy Shopping",
         })
       );
-
+      dispatch(auth.setuser(responseData.user))
       dispatch(auth.Login());
-
       dispatch(UiSlice.loginmodel(false));
     }
   };
@@ -56,6 +58,8 @@ export const SignupHandler = (SignUpdata) => {
         })
       );
       localStorage.setItem("authtoken", responseData.authtoken);
+      localStorage.setItem("user", JSON.stringify(responseData.user));
+      dispatch(auth.setuser(responseData.user))
       dispatch(auth.Login());
     }
   };

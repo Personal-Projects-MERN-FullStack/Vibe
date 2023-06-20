@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { UiSlice } from "../../store/ui-slice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { HiOutlineShoppingBag } from "react-icons/hi";
 import { FaRegAddressCard } from "react-icons/fa";
 import Chekout from "../../pages/Chekout";
@@ -10,6 +10,9 @@ const ProfilePage = () => {
   const [selectedAdress, setselectedAdress] = useState();
   const [show, setshow] = useState("orders");
   const [showform, setshowform] = useState(false);
+  const user = useSelector((state) => state.auth.user);
+  const orders= useSelector(state=>state.product.orders)
+  // console.log(user.name.split(" "));
   const onclosehandler = () => {
     dispatch(UiSlice.profilechange());
   };
@@ -72,10 +75,10 @@ const ProfilePage = () => {
                         />
                         <div class="ml-4">
                           <h2 class="text-lg font-medium text-gray-900">
-                            John Doe
+                            {user.name}
                           </h2>
                           <p class="text-sm font-medium text-gray-500">
-                            john.doe@example.com
+                            {user.email}
                           </p>
                         </div>
                       </div>
@@ -172,20 +175,25 @@ const ProfilePage = () => {
 
                 {/* Orders List  */}
                 {show === "orders" && (
-              <div class="flex m-2 space-x-2 bg-gray-100">
-              <div class="flex-1 max-w-md bg-white shadow-lg rounded-lg p-6 flex items-center space-x-4">
-                <div>
-                  <img src="product-photo.jpg" alt="Product" class="w-16 h-16 rounded-full"/>
-                </div>
-                <div class="flex flex-col">
-                  <h3 class="text-xl font-bold">Order ID</h3>
-                  <p class="text-gray-600">Purchase Date: June 20, 2023</p>
-                  <p class="text-gray-600">Bill: $99.99</p>
-                  <p class="text-gray-600">Payment Status: Paid</p>
-                </div>
-              </div>
-            </div>
-            
+                  <div class="flex m-2 space-x-2 bg-gray-100">
+                    <div class="flex-1 max-w-md bg-white shadow-lg rounded-lg p-6 flex items-center space-x-4">
+                      <div>
+                        <img
+                          src="product-photo.jpg"
+                          alt="Product"
+                          class="w-16 h-16 rounded-full"
+                        />
+                      </div>
+                      <div class="flex flex-col">
+                        <h3 class="text-xl font-bold">Order ID</h3>
+                        <p class="text-gray-600">
+                          Purchase Date: June 20, 2023
+                        </p>
+                        <p class="text-gray-600">Bill: $99.99</p>
+                        <p class="text-gray-600">Payment Status: Paid</p>
+                      </div>
+                    </div>
+                  </div>
                 )}
 
                 {/* Addresss List */}
