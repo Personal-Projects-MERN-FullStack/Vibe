@@ -45,7 +45,7 @@ const Navbar = () => {
     dispatch(UiSlice.cartchange());
   };
   const onloginclickhandler = () => {
-    dispatch(UiSlice.loginmodel());
+    dispatch(UiSlice.loginmodel(true));
   };
   const onlogouthandler = () => {
     dispatch(auth.Logout());
@@ -63,6 +63,7 @@ const Navbar = () => {
               <Link to="/"> <img src="/vibe.png" className="h-8 w-8 md:h-12 md:w-12" alt="logo"/></Link>
             </div>
           </div>
+       
 
           <div className="flex-1 flex justify-center px-2 lg:ml-6 lg:justify-end">
             <div className="w-full max-w-sm">
