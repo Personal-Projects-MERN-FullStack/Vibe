@@ -6,9 +6,9 @@ import { UiSlice } from "../store/ui-slice";
 
 const Cart = () => {
   const Products = useSelector((state) => state.product.cart);
-  const cartchange = useSelector(state => state.ui.showcart)
-  const auth = useSelector(state=>state.auth.auth)
-  const navigate = useNavigate()
+  const cartchange = useSelector((state) => state.ui.showcart);
+  const auth = useSelector((state) => state.auth.auth);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [subtotal, setSubtotal] = useState(0);
 
@@ -19,7 +19,6 @@ const Cart = () => {
     );
   };
 
-  
   useEffect(() => {
     setSubtotal(Getsubtotal(Products));
   }, [Products]);
@@ -45,18 +44,19 @@ const Cart = () => {
     dispatch(UiSlice.cartchange());
   };
 
-
   return (
     <div className="container mx-auto py-8">
       <h1 className="text-2xl font-bold mb-4">
-        Your Cart 
+        Your Cart
         <Link to="/cart">
-          {cartchange && <button
-            onClick={ongotocarthandler}
-            className="text-xl text-blue-900 underline"
-          >
-             - Go To Cart
-          </button>}
+          {cartchange && (
+            <button
+              onClick={ongotocarthandler}
+              className="text-xl text-blue-900 underline"
+            >
+              - Go To Cart
+            </button>
+          )}
         </Link>
       </h1>
 
@@ -126,25 +126,36 @@ const Cart = () => {
         </table>
       </div>
 
+      {Products.length > 0 && (
+        <div className="mt-4 flex flex-col md:flex-row justify-between">
+          <button
+            onClick={oncartclearhandler}
+            href="#"
+            className="text-white bg-blue-500 py-2 px-4 rounded hover:bg-blue-600 mt-2 md:mt-0"
+          >
+            Clear Cart
+          </button>
+        </div>
+      )}
       <div className="mt-4 flex flex-col md:flex-row justify-between">
-        <button
-          onClick={oncartclearhandler}
-          href="#"
-          className="text-white bg-blue-500 py-2 px-4 rounded hover:bg-blue-600 mt-2 md:mt-0"
-        >
-          Clear Cart
-        </button>
-      </div>
-      <div className="mt-4 flex flex-col md:flex-row justify-between">
-        <Link
-          to="/checkout"
-          onClick={()=>{dispatch(UiSlice.cartchange())}}
-          className="text-white bg-blue-500 py-2 px-4 rounded hover:bg-blue-600 mt-2 md:mt-0"
-        >
-          Proceed to Checkout
-        </Link>
+        {Products.length > 0 && (
+          <Link
+            to="/checkout"
+            onClick={() => {
+              dispatch(UiSlice.cartchange());
+            }}
+            className="text-white bg-blue-500 py-2 px-4 rounded hover:bg-blue-600 mt-2 md:mt-0"
+          >
+            Proceed to Checkout
+          </Link>
+        )}
         <Link to="/">
-          <div onClick={()=>{dispatch(UiSlice.cartchange())}} className="text-blue-500 py-2 px-4 rounded hover:bg-blue-100 mt-2 md:mt-0">
+          <div
+            onClick={() => {
+              dispatch(UiSlice.cartchange());
+            }}
+            className="text-blue-500 py-2 px-4 rounded hover:bg-blue-100 mt-2 md:mt-0"
+          >
             Continue Shopping
           </div>
         </Link>
