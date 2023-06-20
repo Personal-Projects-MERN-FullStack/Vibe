@@ -28,7 +28,7 @@ export const LoginHanlder = (Logindata) => {
 
       dispatch(auth.Login());
 
-      dispatch(UiSlice.loginmodel());
+      dispatch(UiSlice.loginmodel(false));
     }
   };
 };

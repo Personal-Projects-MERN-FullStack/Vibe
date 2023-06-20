@@ -24,7 +24,14 @@ const uislice = createSlice({
       state.search = action.payload;
     },
     loginmodel(state, action, payload) {
-      state.showlogin = !state.showlogin;
+      console.log(action.payload)
+     if(!action.payload){
+    
+      state.showlogin = false
+     }else{
+  
+      state.showlogin = true;
+     }
     },
     setformerror(state, action, payload) {
       state.formerror = action.payload;

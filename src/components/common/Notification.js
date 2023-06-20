@@ -14,11 +14,11 @@ const Notification = ({ ninfo }) => {
         pathname: "",
       })
     );
-  }, 5000);
+  }, 2000);
   return (
     <div>
       {/* <div className="h-screen w-screen bg-gradient-to-br from-slate-100 to-slate-300 py-32"> */}
-      <div className="bg-white/60 backdrop-blur-xl z-20 max-w-md fixed right-5 top-5 rounded-lg p-6 shadow">
+      <div className="bg-white/60 backdrop-blur-xl z-20 max-w-md fixed right-5 top-12 rounded-lg p-6 shadow">
         <h1 className="text-xl text-slate-700 font-medium">{ninfo.msg} 👋</h1>
         <div className="flex justify-between items-center">
           <a

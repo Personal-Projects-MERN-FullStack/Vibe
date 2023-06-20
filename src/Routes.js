@@ -19,7 +19,7 @@ function AppRoutes() {
   const notification_status = useSelector((state) => state.ui.shownotification);
   const auth = useSelector((state) => state.auth.auth);
   const cartlength = useSelector((state) => state.product.cart.length);
-  const orderplaced = useSelector(state=>state.ui.orderplaced)
+  const orderplaced = useSelector((state) => state.ui.orderplaced);
   const routes = useRoutes([
     {
       path: "*",

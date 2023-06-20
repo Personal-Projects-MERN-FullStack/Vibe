@@ -6,7 +6,7 @@ import { auth } from "./store/auth-handler";
 import { UiSlice } from "./store/ui-slice";
 
 function App() {
-  
+
   const authtoken = useSelector((state) => state.auth.authtoken);
   const dispatch = useDispatch();
  
@@ -28,6 +28,9 @@ function App() {
       dispatch(auth.Logout())
     }
   }, [dispatch]);
+
+
+  
 
 
 
