@@ -3,7 +3,7 @@ import ProductBar from "../components/product/ProductBar";
 import { useSelector } from "react-redux";
 import ProductCard from "../components/product/ProductCard";
 // import Sidecart from "../components/UI/Sidecart";
-
+import "../index";
 const Home = () => {
   const products = useSelector((state) => state.product.products);
   return (

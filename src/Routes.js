@@ -13,6 +13,8 @@ import Notification from "./components/common/Notification";
 import Login from "./components/Auth/Login";
 import NotLoggedInPage from "./components/common/NotLoggedInPage";
 import OrderPlaced from "./pages/OrderPlaced";
+import Profilepage from "./components/UI/Profilepage";
+
 function AppRoutes() {
   const cartstate = useSelector((state) => state.ui.showcart);
   const loginstate = useSelector((state) => state.ui.showlogin);
@@ -20,6 +22,7 @@ function AppRoutes() {
   const auth = useSelector((state) => state.auth.auth);
   const cartlength = useSelector((state) => state.product.cart.length);
   const orderplaced = useSelector((state) => state.ui.orderplaced);
+  const showprofile = useSelector((state) => state.ui.showprofile);
   const routes = useRoutes([
     {
       path: "*",
@@ -35,6 +38,7 @@ function AppRoutes() {
           )}
           {loginstate && <Login />}
           {auth && cartstate && <Sidecart />}
+          {auth && showprofile && <Profilepage />}
           <Outlet />
           <Footer />
         </div>

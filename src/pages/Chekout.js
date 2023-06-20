@@ -6,31 +6,17 @@ import { UiSlice } from "../store/ui-slice";
 import { pd } from "../store/Product-handler";
 import { Link, useNavigate } from "react-router-dom";
 import uiSlice from "../store/ui-slice";
+import Addresses from "../components/Auth/Addresses";
 const Chekout = () => {
   const [shippingCharges, setshippingCharges] = useState(60);
-  const [Address, setAddress] = useState([
-    {
-      id: 1,
-      fullname: "vaibhav Mohanalkar",
-      Phone_Number: 9284378620,
-      address1: "yamuna socity , old ausa road , latur, 413512 ",
-      landmark: "Next lane of sai baba mandir",
-      pincode: "413512",
-      block: "Gangakhed",
-      city: "latur",
-      state: "Maharastra",
-    },
-  ]);
+
   const [subtotal, setsubtotal] = useState(0);
-  const [pincode, setPincode] = useState("");
-  const [city, setCity] = useState("");
+
   const [selectedAdress, setselectedAdress] = useState();
-  const [state, setState] = useState("");
-  const [block, setblock] = useState("");
+
   const cart = useSelector((state) => state.product.cart);
   const [orderplaced, setorderplaced] = useState(false);
-  const [citygotted, setcitygotted] = useState(true);
-  const [AdressCardShow, setAdressCardShow] = useState(false);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const OnorderplacedSuccesfully = () => {
@@ -38,12 +24,7 @@ const Chekout = () => {
     dispatch(pd.ClearCart());
     dispatch(UiSlice.setorderplaced());
   };
-  const handlePincodeChange = (event) => {
-    setPincode(event.target.value);
-    handleLookup();
-    if (event.target.value.length > 5) {
-    }
-  };
+
   useEffect(() => {
     if (subtotal > 499) {
       setshippingCharges(0);
@@ -51,31 +32,7 @@ const Chekout = () => {
       setshippingCharges(80);
     }
   }, [cart, subtotal]);
-  const handleLookup = async () => {
-    try {
-      const response = await axios.get(
-        `https://api.postalpincode.in/pincode/${pincode}`
-      );
-      const data = response.data[0];
-      if (data.Status === "Success" && data.PostOffice.length > 0) {
-        const { District, State, Block } = data.PostOffice[0];
 
-        setCity(District);
-        setState(State);
-        setblock(Block);
-        setcitygotted(true);
-        return;
-      } else {
-        setcitygotted(false);
-        setblock("");
-        setCity("");
-        setState("");
-        return;
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
   const Getsubtotal = (items) => {
     return items.reduce(
       (subtotal, item) => subtotal + item.price * item.qty,
@@ -152,38 +109,6 @@ const Chekout = () => {
     const paymentobject = new window.Razorpay(options);
     paymentobject.open();
   };
-  const OnAddresAddHandler = (e) => {
-    e.preventDefault();
-    handleLookup().then(() => {
-      if (citygotted) {
-        setAddress([...Address, newAdress]);
-        document.getElementById("myForm").reset();
-        setAdressCardShow(false);
-        dispatch(
-          UiSlice.shownotificationbar({
-            active: true,
-            msg: `Adress Added Succefully`,
-            path: "Select One Adress to CheckOut",
-            pathname: "",
-          })
-        );
-      } else {
-        console.log("tatti");
-      }
-    });
-
-    const newAdress = {
-      id: Math.floor(Math.random() * (5000 - 1000) + 1000),
-      fullname: e.target.name.value,
-      Phone_Number: e.target.phone.value,
-      address1: e.target.address.value,
-      landmark: e.target.landmark.value,
-      pincode: e.target.zip.value,
-      block,
-      city,
-      state,
-    };
-  };
 
   if (!orderplaced) {
     return (
@@ -194,7 +119,7 @@ const Chekout = () => {
 
           <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div class="col-span-2">
-              <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+              {/* <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
                 <h2 class="text-lg font-bold mb-4">Shipping Address</h2>
 
                 <div class="mb-6">
@@ -325,7 +250,6 @@ const Chekout = () => {
                             ZIP Code
                           </label>
                           <input
-                            
                             type="text"
                             id="zip"
                             name="zip"
@@ -350,7 +274,8 @@ const Chekout = () => {
                     </form>
                   </div>
                 )}
-              </div>
+              </div> */}
+              <Addresses setselectedAdress={setselectedAdress} />
 
               <div class="bg-white rounded-lg shadow-lg p-6">
                 <h2 class="text-lg font-bold mb-4">Order Summary</h2>

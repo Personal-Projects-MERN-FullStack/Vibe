@@ -4,6 +4,7 @@ const uislice = createSlice({
   name: "counter",
   initialState: {
     showcart: false,
+    showprofile:false,
     shownotification: { active: false, msg: "", path: "", pathname: "" },
     search: "",
     showlogin: false,
@@ -13,6 +14,9 @@ const uislice = createSlice({
   reducers: {
     cartchange(state, action, payload) {
       state.showcart = !state.showcart;
+    },
+    profilechange(state,action,payload){
+      state.showprofile = !state.showprofile
     },
     shownotificationbar(state, action, payload) {
       // console.log(action.payload)

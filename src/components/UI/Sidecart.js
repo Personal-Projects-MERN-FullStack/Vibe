@@ -2,7 +2,7 @@ import React from "react";
 import Cart from "../../pages/Cart";
 import { useDispatch, useSelector } from "react-redux";
 import { UiSlice } from "../../store/ui-slice";
-
+import './style.css'
 const Sidecart = () => {
   const cartstate = useSelector((state) => state.ui.showcart);
   const dispatch = useDispatch();

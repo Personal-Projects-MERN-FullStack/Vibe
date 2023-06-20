@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AiOutlineShoppingCart } from "react-icons/ai";
+import { CgProfile } from "react-icons/cg";
 import { Link, useNavigate } from "react-router-dom";
 import { UiSlice } from "../../store/ui-slice";
 import { pd } from "../../store/Product-handler";
@@ -11,7 +12,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const authticated = useSelector((state) => state.auth.auth);
   const searchcontent = useSelector((state) => state.ui.search);
-  const cart = useSelector(state=>state.product.cart.length)
+  const cart = useSelector((state) => state.product.cart.length);
   useEffect(() => {
     onsearchhandlerfun(searchcontent);
   }, [searchcontent]);
@@ -31,14 +32,15 @@ const Navbar = () => {
   };
 
   const oncartbuttonhandler = () => {
-    if(!authticated){
+    if (!authticated) {
       dispatch(
         UiSlice.shownotificationbar({
           active: true,
           msg: `You are Not Logged in`,
           path: "/",
           pathname: "login to see cart",
-        }))
+        })
+      );
     }
     dispatch(UiSlice.cartchange());
   };
@@ -48,6 +50,9 @@ const Navbar = () => {
   const onlogouthandler = () => {
     dispatch(auth.Logout());
   };
+  const onprofilebuttonchangehandler = ()=>{
+    dispatch(UiSlice.profilechange())
+  }
   return (
     <nav className="bg-gray-800 ">
       <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
@@ -99,12 +104,22 @@ const Navbar = () => {
               </div>
             )}
             {authticated && (
-              <div
-                onClick={onlogouthandler}
-                className="text-gray-300 hover:bg-gray-700 flex justify-center items-center cursor-pointer hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-              >
-                Logout
-              </div>
+              <>
+                <div
+                  onClick={onlogouthandler}
+                  className="text-gray-300 hover:bg-gray-700 flex justify-center items-center cursor-pointer hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  Logout
+                </div>
+                <div className="relative">
+                  <button
+                    className="flex items-center justify-center text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-2xl font-medium"
+                    onClick={onprofilebuttonchangehandler}
+                  >
+                    <CgProfile />
+                  </button>
+                </div>
+              </>
             )}
             <div className="relative">
               <button
@@ -115,7 +130,7 @@ const Navbar = () => {
               </button>
 
               <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center">
-               {cart}
+                {cart}
               </span>
             </div>
           </div>
