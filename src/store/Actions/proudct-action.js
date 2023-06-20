@@ -33,7 +33,7 @@ export const UploadCart = ( user, cart ) => {
         
       try {
        
-        const response = await fetch(`http://localhost:5000/cart/addtocart/${user.email}`, {
+        const response = await fetch(`${apiurl}/cart/addtocart/${user.email}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
