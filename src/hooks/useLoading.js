@@ -20,18 +20,18 @@ const useLoading = () => {
       setucart(true);
       const authtoken = localStorage.getItem("authtoken");
       const user = localStorage.getItem("user");
-  
+      const fetchData = async () => {
+        // Perform your data fetching logic here
+        const response = await fetch(`${apiurl}/product/products`);
+        const data = await response.json();
+        console.log(data)
+        dispatch(pd.setproducts(data))
+        
+      };
+      fetchData()
+    
       if (authtoken) {
-        const fetchData = async () => {
-          // Perform your data fetching logic here
-          const response = await fetch(`${apiurl}/product/products`);
-          const data = await response.json();
-          console.log(data)
-          dispatch(pd.setproducts(data))
-          
-        };
-        fetchData()
-      
+       
         dispatch(UiSlice.loginmodel(false));
         dispatch(auth.setuser(JSON.parse(user)));
         dispatch(auth.Login());
