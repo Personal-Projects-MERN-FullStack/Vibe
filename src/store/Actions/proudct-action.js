@@ -28,37 +28,94 @@ export const updateCartItems = (user) => {
   };
 };
 
-export const UploadCart = ( user, cart ) => {
-    return async (dispatch) => {
-        
-      try {
-       
-        const response = await fetch(`${apiurl}/cart/addtocart/${user.email}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({userId:user.email,items:cart}),
-        });
-        
-        if (!response.ok) {
-          console.log("Not Succeed to Update Cart");
-          return;
-        }
-        if (response.ok) {
-          dispatch(
-            UiSlice.shownotificationbar({
-              active: true,
-              msg: "Cart Updated",
-              path: "/",
-              pathname: "Enjoy Shopping",
-            })
-          );
-        }
-      } catch (error) {
-        // dispatch(pd.ClearCart());
-        console.error("Error occurred while updating cart:", error);
+export const UploadCart = (user, cart) => {
+  return async (dispatch) => {
+    try {
+      const response = await fetch(`${apiurl}/cart/addtocart/${user.email}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId: user.email, items: cart }),
+      });
+
+      if (!response.ok) {
+        console.log("Not Succeed to Update Cart");
+        return;
       }
-    };
+      if (response.ok) {
+        dispatch(
+          UiSlice.shownotificationbar({
+            active: true,
+            msg: "Cart Updated",
+            path: "/",
+            pathname: "Enjoy Shopping",
+          })
+        );
+      }
+    } catch (error) {
+      // dispatch(pd.ClearCart());
+      console.error("Error occurred while updating cart:", error);
+    }
   };
-  
+};
+
+export const UpdateAderssesLocal = (user) => {
+  return async (dispatch) => {
+    try {
+      const response = await fetch(`${apiurl}/address/getaddress/${user.email}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const responseData = await response.json();
+      if (!response.ok) {
+        alert("Not Succeed to Update Cart");
+        return;
+      }
+      if (response.ok) {
+        dispatch(pd.updateaddress(responseData.addresses));
+        // console.log(responseData.addresses);
+      }
+    } catch (error) {
+      console.error("Error occurred while updating cart:", error);
+    }
+  };
+};
+
+export const UploadAddress = (user, address) => {
+  return async (dispatch) => {
+    console.log(user,address)
+    try {
+      const response = await fetch(`${apiurl}/address/getaddress`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId: user.email, items: address }),
+      });
+
+      if (!response.ok) {
+        console.log("Not Succeed to Update address");
+        return;
+      }
+      if (response.ok) {
+        console.log()
+        const responseData = await response.json();
+        // console.log(responseData,"upload")
+        dispatch(
+          UiSlice.shownotificationbar({
+            active: true,
+            msg: "Adress Updated",
+            path: "/",
+            pathname: "Enjoy Shopping",
+          })
+        );
+      }
+    } catch (error) {
+      dispatch(pd.ClearAddress());
+      console.error("Error occurred while updating Address:", error);
+    }
+  };
+};

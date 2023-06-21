@@ -343,7 +343,8 @@ let initialState = {
   products,
   product: {},
   cart: [],
-  orders:[]
+  orders:[],
+  address:[]
 };
 const Producthandler = createSlice({
   name: "product",
@@ -417,6 +418,12 @@ const Producthandler = createSlice({
     },
     setorders(state,action,payload){
       console.log(action.payload)
+    },
+    updateaddress(state,action,paylod){
+      state.address=[...action.payload]
+    },
+    ClearAddress(state,action,payload){
+      state.address =[]
     }
   },
 });

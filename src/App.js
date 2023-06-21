@@ -4,15 +4,20 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { auth } from "./store/auth-handler";
 import { UiSlice } from "./store/ui-slice";
-import {  UploadCart, updateCartItems } from "./store/Actions/proudct-action";
+import {
+  UpdateAderssesLocal,
+  UploadCart,
+  updateCartItems,
+} from "./store/Actions/proudct-action";
+import { pd } from "./store/Product-handler";
 
 function App() {
   const dispatch = useDispatch();
-  const authed = useSelector(state=>state.auth.auth)
+  const authed = useSelector((state) => state.auth.auth);
   const cart = useSelector((state) => state.product.cart);
-  const [ucart, setucart] = useState(false)
+  const [ucart, setucart] = useState(false);
   useEffect(() => {
-    setucart(true)
+    setucart(true);
     const authtoken = localStorage.getItem("authtoken");
     const user = localStorage.getItem("user");
 
@@ -37,18 +42,23 @@ function App() {
     const user = localStorage.getItem("user");
 
     dispatch(updateCartItems(JSON.parse(user)));
-  }, [authed,dispatch]);
+    dispatch(UpdateAderssesLocal(JSON.parse(user)));
+  }, [authed, dispatch]);
 
-  useEffect(()=>{
-    
+  useEffect(() => {
     const user = localStorage.getItem("user");
-    if(ucart){
-     const userp =JSON.parse(user)
-     
-    dispatch(  UploadCart(userp,cart))
+    if (ucart) {
+      const userp = JSON.parse(user);
+
+      dispatch(UploadCart(userp, cart));
     }
-   
-  },[cart,dispatch,authed])
+  }, [cart, dispatch, authed]);
+  useEffect(()=>{
+    if(!authed){
+      dispatch(pd.ClearCart());
+      dispatch(pd.ClearAddress())
+    }
+  },[authed,dispatch])
   return (
     <Router>
       <Routes />
