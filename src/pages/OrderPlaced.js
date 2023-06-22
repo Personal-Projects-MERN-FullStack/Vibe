@@ -1,7 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { UiSlice } from "../store/ui-slice";
+import { useDispatch } from "react-redux";
 
 const OrderPlaced = () => {
+  const dispatch = useDispatch()
   return (
     <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full bg-white p-8 rounded shadow-lg">
@@ -33,6 +36,7 @@ const OrderPlaced = () => {
         </div>
         <div className="mt-8 flex justify-center">
           <Link
+          onClick={()=>{dispatch(UiSlice.setorderplaced(false))}}
             to="/"
             className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
           >

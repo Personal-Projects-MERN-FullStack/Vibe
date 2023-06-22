@@ -41,7 +41,7 @@ const uislice = createSlice({
     setformerror(state, action, payload) {
       state.formerror = action.payload;
     },setorderplaced(state,action,payload){
-      state.orderplaced = !state.orderplaced
+      state.orderplaced = action.payload
     }
   },
 });

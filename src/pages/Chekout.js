@@ -21,10 +21,11 @@ const Chekout = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const OnorderplacedSuccesfully = async () => {
-    dispatch(OrderProduct(cart, user, subtotal, "Paid", selectedAdress)).then(
+    const pstatus = "Paid"
+    dispatch(OrderProduct(cart, user, subtotal, pstatus, selectedAdress)).then(
       (status) => {
         if (status) {
-          dispatch(UiSlice.setorderplaced());
+          dispatch(UiSlice.setorderplaced(true));
           dispatch(pd.ClearCart());
           navigate("/OrderPlaced");
         } else {
