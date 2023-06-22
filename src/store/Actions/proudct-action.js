@@ -163,3 +163,31 @@ export const OrderProduct = (cart, user, subtotal, pstatus, address) => {
     }
   };
 };
+
+export const GetOrders = (user) => {
+  return async (dispatch) => {
+    try {
+      const response = await fetch(
+        `${apiurl}/order/getorderbycustomerid/${user.email}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const responseData = await response.json();
+      if (!response.ok) {
+        alert("Not Succeed to Orders Cart");
+        return;
+      }
+      if (response.ok) {
+        // console.log(responseData);
+        dispatch(pd.setorders(responseData));
+      }
+    } catch (error) {
+      dispatch(pd.ClearCart());
+      console.error("Error occurred while updating Orders:", error);
+    }
+  };
+};

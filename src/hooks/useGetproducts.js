@@ -18,7 +18,7 @@ export const useGetproducts = () => {
     // Handle incoming WebSocket messages
     socket.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      console.log("data received", data);
+      // console.log("data received", data);
       dispatch(pd.setproducts(data));
       // Process the received data as needed
     };

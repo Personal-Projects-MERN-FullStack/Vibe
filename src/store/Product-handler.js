@@ -306,7 +306,10 @@ const Producthandler = createSlice({
       };
     },
     setorders(state,action,payload){
-      console.log(action.payload)
+      state.orders = action.payload
+    },
+    clearorders(state,action,paylod){
+      state.orders = []
     },
     updateaddress(state,action,paylod){
       state.address=[...action.payload]

@@ -6,6 +6,7 @@ import { FaRegAddressCard } from "react-icons/fa";
 import Chekout from "../../pages/Chekout";
 import Addresses from "../Auth/Addresses";
 import { auth } from "../../store/auth-handler";
+import OrdersCard from "../product/OrdersCard";
 const ProfilePage = () => {
   const dispatch = useDispatch();
   const [selectedAdress, setselectedAdress] = useState();
@@ -13,7 +14,8 @@ const ProfilePage = () => {
   const [showform, setshowform] = useState(false);
   const user = useSelector((state) => state.auth.user);
   const orders = useSelector((state) => state.product.orders);
-  // console.log(user.name.split(" "));
+  console.log(orders)
+ 
   const onclosehandler = () => {
     dispatch(UiSlice.profilechange());
   };
@@ -222,25 +224,11 @@ const ProfilePage = () => {
                 </div>
 
                 {/* Orders List  */}
-                {show === "orders" && (
-                  <div className="flex m-2 space-x-2 bg-gray-100">
-                    <div className="flex-1 max-w-md bg-white shadow-lg rounded-lg p-6 flex items-center space-x-4">
-                      <div>
-                        <img
-                          src="product-photo.jpg"
-                          alt="Product"
-                          className="w-16 h-16 rounded-full"
-                        />
-                      </div>
-                      <div className="flex flex-col">
-                        <h3 className="text-xl font-bold">Order ID</h3>
-                        <p className="text-gray-600">
-                          Purchase Date: June 20, 2023
-                        </p>
-                        <p className="text-gray-600">Bill: $99.99</p>
-                        <p className="text-gray-600">Payment Status: Paid</p>
-                      </div>
-                    </div>
+                {show === "orders" && auth && orders.length > 0 && (
+                  <div className="flex flex-col m-2 space-y-2 justify-center  bg-gray-100">
+                    {orders.map((item) => {
+                      return <OrdersCard orders={item} />;
+                    })}
                   </div>
                 )}
 

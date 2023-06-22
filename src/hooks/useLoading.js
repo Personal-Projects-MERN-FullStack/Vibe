@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { auth } from "../store/auth-handler";
 import { UiSlice } from "../store/ui-slice";
 import {
+  GetOrders,
   UpdateAderssesLocal,
   UploadCart,
   updateCartItems,
@@ -10,8 +11,6 @@ import {
 import { pd } from "../store/Product-handler";
 
 const useLoading = () => {
-
-
   const dispatch = useDispatch();
   const authed = useSelector((state) => state.auth.auth);
   const cart = useSelector((state) => state.product.cart);
@@ -41,9 +40,10 @@ const useLoading = () => {
   useEffect(() => {
     const user = localStorage.getItem("user");
 
-    if(authed){
+    if (authed) {
+      dispatch(GetOrders(JSON.parse(user)));
       dispatch(updateCartItems(JSON.parse(user)));
-    dispatch(UpdateAderssesLocal(JSON.parse(user)));
+      dispatch(UpdateAderssesLocal(JSON.parse(user)));
     }
   }, [authed, dispatch]);
 
@@ -57,6 +57,7 @@ const useLoading = () => {
   }, [cart, dispatch, authed]);
   useEffect(() => {
     if (!authed) {
+      dispatch(pd.clearorders());
       dispatch(pd.ClearCart());
       dispatch(pd.ClearAddress());
     }
