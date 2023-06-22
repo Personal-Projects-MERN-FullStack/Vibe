@@ -16,18 +16,42 @@ const useLoading = () => {
   const authed = useSelector((state) => state.auth.auth);
   const cart = useSelector((state) => state.product.cart);
   const [ucart, setucart] = useState(false);
+  // const socket = new WebSocket(`wss://localhost:5000`);
+
+  // // WebSocket connection event
+  // socket.onopen = () => {
+  //   console.log("WebSocket connection established.");
+  // };
+
+  // // Handle incoming WebSocket messages
+  // socket.onmessage = (event) => {
+  //   const data = JSON.parse(event.data);
+  //   console.log(data);
+  //   dispatch(pd.setproducts(data));
+  // };
+
+  // // Handle WebSocket errors
+  // socket.onerror = (error) => {
+  //   console.error("WebSocket error:", error);
+  // };
+
+  // // Handle WebSocket close event if needed
+  // socket.onclose = () => {
+  //   console.log("WebSocket connection closed.");
+  // };
   useEffect(() => {
     setucart(true);
     const authtoken = localStorage.getItem("authtoken");
     const user = localStorage.getItem("user");
-    const fetchData = async () => {
-      // Perform your data fetching logic here
-      const response = await fetch(`${apiurl}/product/products`);
-      const data = await response.json();
-      console.log(data);
-      dispatch(pd.setproducts(data));
-    };
-    fetchData();
+    // const fetchData = async () => {
+    //   // Perform your data fetching logic here
+    //   const response = await fetch(`${apiurl}/product/products`);
+    //   const data = await response.json();
+    //   console.log(data);
+    //   dispatch(pd.setproducts(data));
+    // };
+    // fetchData();
+   
 
     if (authtoken) {
       dispatch(UiSlice.loginmodel(false));
