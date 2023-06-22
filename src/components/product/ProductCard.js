@@ -97,7 +97,7 @@ const ProductCard = ({ product, addtocart }) => {
         )}
         {addtocart && (
           <div>
-            {product.availability.inStock && (
+            {product.availability.quantity > 0 && (
               <button
                 onClick={OnAddToCartHandler}
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -105,7 +105,7 @@ const ProductCard = ({ product, addtocart }) => {
                 Add to Cart
               </button>
             )}
-            {!product.availability.inStock && (
+            {product.availability.quantity === 0 && (
               <button className="bg-gray-500 cursor-not-allowed hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 Out Of Stock
               </button>

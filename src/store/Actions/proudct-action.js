@@ -3,7 +3,8 @@ import { pd } from "../Product-handler";
 import { UiSlice } from "../ui-slice";
 
 const apiurl = process.env.REACT_APP_API_KEY;
-
+// const cart = useSelector((state) => state.product.cart);
+//   const user = useSelector((state) => state.auth.user);
 export const updateCartItems = (user) => {
   return async (dispatch, getState) => {
     try {
@@ -63,12 +64,15 @@ export const UploadCart = (user, cart) => {
 export const UpdateAderssesLocal = (user) => {
   return async (dispatch) => {
     try {
-      const response = await fetch(`${apiurl}/address/getaddress/${user.email}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `${apiurl}/address/getaddress/${user.email}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       const responseData = await response.json();
       if (!response.ok) {
         alert("Not Succeed to Update Cart");
@@ -86,7 +90,7 @@ export const UpdateAderssesLocal = (user) => {
 
 export const UploadAddress = (user, address) => {
   return async (dispatch) => {
-    console.log(user,address)
+    console.log(user, address);
     try {
       const response = await fetch(`${apiurl}/address/getaddress`, {
         method: "POST",
@@ -101,7 +105,7 @@ export const UploadAddress = (user, address) => {
         return;
       }
       if (response.ok) {
-        console.log()
+        console.log();
         const responseData = await response.json();
         // console.log(responseData,"upload")
         dispatch(
@@ -116,6 +120,48 @@ export const UploadAddress = (user, address) => {
     } catch (error) {
       dispatch(pd.ClearAddress());
       console.error("Error occurred while updating Address:", error);
+    }
+  };
+};
+
+export const OrderProduct = (cart,user,subtotal, pstatus, address) => {
+  
+  return async (dispatch) => {
+    
+    console.log(cart,user,subtotal, pstatus, address);
+    try {
+      const response = await fetch(`${apiurl}/order/orders`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          customerid: user.email,
+          orders: cart,
+          totalbill: subtotal,
+          paymentstatus: pstatus,
+          Address:address
+        }),
+      });
+
+      if (!response.ok) {
+        console.log("Not Succeed to Order Product");
+        return false;
+      }
+      if (response.ok) {
+        dispatch(
+          UiSlice.shownotificationbar({
+            active: true,
+            msg: "Product Orderd",
+            path: "/",
+            pathname: "Enjoy Shopping",
+          })
+        );
+        return true;
+      }
+    } catch (error) {
+      // dispatch(pd.ClearCart());
+      console.error("Error occurred while Ordering Product :", error);
     }
   };
 };

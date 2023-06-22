@@ -12,17 +12,17 @@ const Addresses = ({ setselectedAdress }) => {
   const user = useSelector((state) => state.auth.user);
   // console.log(Addresses);
   // const [Address, setAddress] = useState([
-  //     {
-  //       id: 1,
-  //       fullname: "vaibhav Mohanalkar",
-  //       Phone_Number: 9284378620,
-  //       address1: "yamuna socity , old ausa road , latur, 413512 ",
-  //       landmark: "Next lane of sai baba mandir",
-  //       pincode: "413512",
-  //       block: "Gangakhed",
-  //       city: "latur",
-  //       state: "Maharastra",
-  //     },
+      // {
+      //   id: 1,
+      //   fullname: "vaibhav Mohanalkar",
+      //   Phone_Number: 9284378620,
+      //   address1: "yamuna socity , old ausa road , latur, 413512 ",
+      //   landmark: "Next lane of sai baba mandir",
+      //   pincode: "413512",
+      //   block: "Gangakhed",
+      //   city: "latur",
+      //   state: "Maharastra",
+      // },
   //   ]);
   const [pincode, setPincode] = useState("");
   const [city, setCity] = useState("");

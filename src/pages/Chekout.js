@@ -7,6 +7,7 @@ import { pd } from "../store/Product-handler";
 import { Link, useNavigate } from "react-router-dom";
 import uiSlice from "../store/ui-slice";
 import Addresses from "../components/Auth/Addresses";
+import { OrderProduct } from "../store/Actions/proudct-action";
 const Chekout = () => {
   const [shippingCharges, setshippingCharges] = useState(60);
 
@@ -16,13 +17,33 @@ const Chekout = () => {
 
   const cart = useSelector((state) => state.product.cart);
   const [orderplaced, setorderplaced] = useState(false);
-
+  const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const OnorderplacedSuccesfully = () => {
-    navigate("/OrderPlaced");
-    dispatch(pd.ClearCart());
-    dispatch(UiSlice.setorderplaced());
+  const OnorderplacedSuccesfully = async () => {
+    dispatch(OrderProduct(cart, user, subtotal, "Paid", selectedAdress)).then(
+      (status) => {
+        if (status) {
+          dispatch(UiSlice.setorderplaced());
+          dispatch(pd.ClearCart());
+          navigate("/OrderPlaced");
+         
+          
+         
+          
+        } else {
+          dispatch(
+            UiSlice.shownotificationbar({
+              active: true,
+              msg: "Failed to Order Product",
+              path: "/cart",
+              pathname: "Retry Again",
+            })
+          );
+          setorderplaced(false);
+        }
+      }
+    );
   };
 
   useEffect(() => {
@@ -78,6 +99,7 @@ const Chekout = () => {
 
       handler: function (response) {
         if (response.razorpay_payment_id) {
+          setorderplaced(true);
           OnorderplacedSuccesfully();
         } else {
           dispatch(
@@ -368,44 +390,27 @@ const Chekout = () => {
     );
   } else {
     return (
-      <div class="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
-        <div class="max-w-md w-full bg-white p-8 rounded shadow-lg">
-          <div class="text-center">
-            <svg
-              class="h-12 w-12 text-green-500 mx-auto"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M5 13l4 4L19 7"
-              ></path>
-            </svg>
-            <h2 class="mt-4 text-2xl font-bold text-gray-800">
-              Order Placed Successfully
-            </h2>
-          </div>
-          <div class="mt-8">
-            <p class="text-lg text-gray-700 text-center">
-              Thank you for your order!
-            </p>
-            <p class="text-sm text-gray-500 text-center">
-              Your order has been successfully placed.
-            </p>
-          </div>
-          <div class="mt-8 flex justify-center">
-            <Link
-              to="/"
-              class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-            >
-              Continue Shopping
-            </Link>
+      <>
+        <div class="flex flex-col items-center justify-center min-h-screen">
+          <div class="bg-white p-8 rounded-lg shadow-lg max-w-md">
+            <h1 class="text-3xl font-bold mb-4 text-center">Order Placement</h1>
+            <div class="flex flex-col space-y-4">
+              <p class="text-center text-gray-500 mb-4">
+                Please wait while your order is being processed.
+              </p>
+              <p class="text-center text-red-500">
+                Please do not press the back button or close this tab.
+              </p>
+            </div>
+
+            <div class="flex items-center justify-center mt-8">
+              <div class="w-4 h-4 bg-blue-500 rounded-full animate-ping animation-delay-0"></div>
+              <div class="w-4 h-4 bg-blue-500 rounded-full animate-ping animation-delay-1"></div>
+              <div class="w-4 h-4 bg-blue-500 rounded-full animate-ping animation-delay-2"></div>
+            </div>
           </div>
         </div>
-      </div>
+      </>
     );
   }
 };

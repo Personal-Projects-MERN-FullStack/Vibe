@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { pd } from "../store/Product-handler";
 import LoadingSpinner from "../components/common/LoadingSpinner";
 import { UiSlice } from "../store/ui-slice";
+import ProductAvailability from "../components/common/ProductAvailability";
 
 const ProductDetails = () => {
   const [pdata, setpdata] = useState([]);
@@ -55,21 +56,24 @@ const ProductDetails = () => {
                 Availability:{" "}
                 {pdata[0].availability.inStock ? "In Stock" : " Out Of Stock "}
               </p>
-              {pdata[0].availability.inStock && (
-                <button
-                  onClick={OnAddToCartHandler}
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                >
-                  Add to Cart
-                </button>
-              )}
-              {!pdata[0].availability.inStock && (
+              {(pdata[0].availability.inStock &&
+                pdata[0].availability.quantity > 0) && (
+                  <button
+                    onClick={OnAddToCartHandler}
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  >
+                    Add to Cart
+                  </button>
+                )}
+              {pdata[0].availability.quantity === 0 && (
                 <button className="bg-gray-500 cursor-not-allowed hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                   Out Of Stock
                 </button>
               )}
+              
             </div>
             <div className="bg-white p-4 shadow-md rounded-lg col-span-2">
+              <ProductAvailability quantity={pdata[0].availability.quantity}/>
               <h3 className="text-lg font-bold mb-2">Reviews</h3>
               {pdata[0].reviews.length > 0 && (
                 <div className="border border-gray-300 p-4 rounded-lg flex flex-col flex-nowrap my-auto ">
