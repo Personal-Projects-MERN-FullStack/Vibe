@@ -90,7 +90,7 @@ export const UpdateAderssesLocal = (user) => {
 
 export const UploadAddress = (user, address) => {
   return async (dispatch) => {
-    console.log(user, address);
+    // console.log(user, address);
     try {
       const response = await fetch(`${apiurl}/address/getaddress`, {
         method: "POST",
@@ -105,7 +105,7 @@ export const UploadAddress = (user, address) => {
         return;
       }
       if (response.ok) {
-        console.log();
+        // console.log();
         const responseData = await response.json();
         // console.log(responseData,"upload")
         dispatch(
@@ -124,11 +124,9 @@ export const UploadAddress = (user, address) => {
   };
 };
 
-export const OrderProduct = (cart,user,subtotal, pstatus, address) => {
-  
+export const OrderProduct = (cart, user, subtotal, pstatus, address) => {
   return async (dispatch) => {
-    
-    console.log(cart,user,subtotal, pstatus, address);
+    // console.log(cart,user,subtotal, pstatus, address);
     try {
       const response = await fetch(`${apiurl}/order/orders`, {
         method: "POST",
@@ -140,7 +138,7 @@ export const OrderProduct = (cart,user,subtotal, pstatus, address) => {
           orders: cart,
           totalbill: subtotal,
           paymentstatus: pstatus,
-          Address:address
+          Address: address,
         }),
       });
 

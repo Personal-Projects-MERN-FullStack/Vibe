@@ -50,9 +50,9 @@ const Navbar = () => {
   const onlogouthandler = () => {
     dispatch(auth.Logout());
   };
-  const onprofilebuttonchangehandler = ()=>{
-    dispatch(UiSlice.profilechange())
-  }
+  const onprofilebuttonchangehandler = () => {
+    dispatch(UiSlice.profilechange());
+  };
   return (
     <nav className="bg-gray-800 ">
       <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
@@ -60,10 +60,16 @@ const Navbar = () => {
           <div className="flex-shrink-0">
             {/* <img src="vibe.jpg" alt="logo here" className="w-full h-full"/> */}
             <div href="s" className="text-white text-lg font-semibold">
-              <Link to="/"> <img src="/vibe.png" className="h-8 w-8 md:h-12 md:w-12" alt="logo"/></Link>
+              <Link to="/">
+                {" "}
+                <img
+                  src="/vibe.png"
+                  className="h-8 w-8 md:h-12 md:w-12"
+                  alt="logo"
+                />
+              </Link>
             </div>
           </div>
-       
 
           <div className="flex-1 flex justify-center px-2 lg:ml-6 lg:justify-end">
             <div className="w-full max-w-sm">

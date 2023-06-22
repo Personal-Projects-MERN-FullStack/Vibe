@@ -27,10 +27,6 @@ const Chekout = () => {
           dispatch(UiSlice.setorderplaced());
           dispatch(pd.ClearCart());
           navigate("/OrderPlaced");
-         
-          
-         
-          
         } else {
           dispatch(
             UiSlice.shownotificationbar({
@@ -136,38 +132,38 @@ const Chekout = () => {
     return (
       <div>
         {/* <Locationlookup/> */}
-        <div class="container mx-auto px-4 py-8">
-          <h1 class="text-2xl font-bold mb-4">Checkout</h1>
+        <div className="container mx-auto px-4 py-8">
+          <h1 className="text-2xl font-bold mb-4">Checkout</h1>
 
-          <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div class="col-span-2">
-              {/* <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
-                <h2 class="text-lg font-bold mb-4">Shipping Address</h2>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="col-span-2">
+              {/* <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
+                <h2 className="text-lg font-bold mb-4">Shipping Address</h2>
 
-                <div class="mb-6">
-                  <h3 class="text-lg font-bold mb-2">Saved Addresses</h3>
+                <div className="mb-6">
+                  <h3 className="text-lg font-bold mb-2">Saved Addresses</h3>
                   {Address.length === 0 && (
                     <p className="text-red-500 ">You have no saved addresses</p>
                   )}
-                  <ul class="space-y-2">
+                  <ul className="space-y-2">
                     {Address.length > 0 &&
                       Address.map((add) => {
                         return (
                           <li key={add.id}>
-                            <div class="flex items-center">
+                            <div className="flex items-center">
                               <input
                                 type="radio"
                                 id="address1"
                                 name="address"
-                                class="form-radio mr-2"
+                                className="form-radio mr-2"
                                 onChange={() => {
                                   setselectedAdress(add);
                                 }}
                               />
-                              <label for="address1" class="font-bold">
+                              <label htmlFor="address1" className="font-bold">
                                 {add.name}
                               </label>
-                              <span class="text-gray-500 ml-2">
+                              <span className="text-gray-500 ml-2">
                                 {add.address1}
                               </span>
                             </div>
@@ -177,13 +173,13 @@ const Chekout = () => {
                   </ul>
                 </div>
 
-                <hr class="border-t border-gray-300 my-4" />
+                <hr className="border-t border-gray-300 my-4" />
                 {!AdressCardShow && (
                   <button
                     onClick={() => {
                       setAdressCardShow(true);
                     }}
-                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                   >
                     Add New Address
                   </button>
@@ -191,14 +187,14 @@ const Chekout = () => {
 
                 {AdressCardShow && (
                   <div>
-                    <h3 class="text-lg font-bold mb-2">Add New Address</h3>
+                    <h3 className="text-lg font-bold mb-2">Add New Address</h3>
 
                     <form onSubmit={OnAddresAddHandler} id="myForm">
                       <div className="flex md:space-x-8 space-x-1">
-                        <div class="mb-4">
+                        <div className="mb-4">
                           <label
-                            class="block text-gray-700 text-sm font-bold mb-2"
-                            for="name"
+                            className="block text-gray-700 text-sm font-bold mb-2"
+                            htmlFor="name"
                           >
                             Full Name
                           </label>
@@ -206,15 +202,15 @@ const Chekout = () => {
                             type="text"
                             id="name"
                             name="name"
-                            class="form-input w-full"
+                            className="form-input w-full"
                             placeholder="John Doe"
                             required
                           />
                         </div>
-                        <div class="mb-4">
+                        <div className="mb-4">
                           <label
-                            class="block text-gray-700 text-sm font-bold mb-2"
-                            for="name"
+                            className="block text-gray-700 text-sm font-bold mb-2"
+                            htmlFor="name"
                           >
                             Phone Number
                           </label>
@@ -222,17 +218,17 @@ const Chekout = () => {
                             type="text"
                             id="phone"
                             name="phone"
-                            class="form-input w-full"
+                            className="form-input w-full"
                             placeholder="John Doe"
                             required
                           />
                         </div>
                       </div>
 
-                      <div class="mb-4">
+                      <div className="mb-4">
                         <label
-                          class="block text-gray-700 text-sm font-bold mb-2"
-                          for="address"
+                          className="block text-gray-700 text-sm font-bold mb-2"
+                          htmlFor="address"
                         >
                           Address Line 1
                         </label>
@@ -240,16 +236,16 @@ const Chekout = () => {
                           type="text"
                           id="address"
                           name="address"
-                          class="form-input w-full"
+                          className="form-input w-full"
                           placeholder="123 Main St"
                           required
                         />
                       </div>
 
-                      <div class="mb-4">
+                      <div className="mb-4">
                         <label
-                          class="block text-gray-700 text-sm font-bold mb-2"
-                          for="landmark"
+                          className="block text-gray-700 text-sm font-bold mb-2"
+                          htmlFor="landmark"
                         >
                           Landmark
                         </label>
@@ -257,17 +253,17 @@ const Chekout = () => {
                           type="text"
                           id="landmark"
                           name="landmark"
-                          class="form-input w-full"
+                          className="form-input w-full"
                           placeholder="Entery Nearby Landmark."
                           required
                         />
                       </div>
 
-                      <div class="grid grid-cols-2 gap-4">
+                      <div className="grid grid-cols-2 gap-4">
                         <div>
                           <label
-                            class="block text-gray-700 text-sm font-bold mb-2"
-                            for="zip"
+                            className="block text-gray-700 text-sm font-bold mb-2"
+                            htmlFor="zip"
                           >
                             ZIP Code
                           </label>
@@ -275,7 +271,7 @@ const Chekout = () => {
                             type="text"
                             id="zip"
                             name="zip"
-                            class="form-input w-full"
+                            className="form-input w-full"
                             placeholder="12345"
                             required
                           />
@@ -285,10 +281,10 @@ const Chekout = () => {
                         )}
                       </div>
 
-                      <div class="mt-6">
+                      <div className="mt-6">
                         <button
                           type="submit"
-                          class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                          className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                         >
                           Add Address
                         </button>
@@ -299,56 +295,58 @@ const Chekout = () => {
               </div> */}
               <Addresses setselectedAdress={setselectedAdress} />
 
-              <div class="bg-white rounded-lg shadow-lg p-6">
-                <h2 class="text-lg font-bold mb-4">Order Summary</h2>
+              <div className="bg-white rounded-lg shadow-lg p-6">
+                <h2 className="text-lg font-bold mb-4">Order Summary</h2>
 
                 {cart.map((item) => {
                   return (
-                    <div class="flex justify-between mb-4">
-                      <div class="flex items-center">
+                    <div className="flex justify-between mb-4" key={item.id}>
+                      <div className="flex items-center">
                         <img
                           src={`https://source.unsplash.com/600x400/?${item.name},category:${item.category}`}
                           alt="Product 1"
-                          class="w-16 h-16 mr-4"
+                          className="w-16 h-16 mr-4"
                         />
                         <div>
-                          <h3 class="font-bold">{item.name}</h3>
-                          <p class="text-gray-500">{item.description}</p>
+                          <h3 className="font-bold">{item.name}</h3>
+                          <p className="text-gray-500">{item.description}</p>
                         </div>
                       </div>
-                      <span class="font-bold"> ₹ {item.price}</span>
+                      <span className="font-bold"> ₹ {item.price}</span>
                     </div>
                   );
                 })}
 
-                <hr class="border-t border-gray-300 my-4" />
+                <hr className="border-t border-gray-300 my-4" />
 
-                <div class="flex justify-between">
-                  <span class="font-bold">Total</span>
-                  <span class="font-bold">₹ {subtotal}</span>
+                <div className="flex justify-between">
+                  <span className="font-bold">Total</span>
+                  <span className="font-bold">₹ {subtotal}</span>
                 </div>
               </div>
             </div>
 
-            <div class="col-span-1">
-              <div class="bg-white rounded-lg shadow-lg p-6">
-                <h2 class="text-lg font-bold mb-4">Payment Information</h2>
-                <div class="flex justify-between">
-                  <span class="text-sm font-sans">Total Product Bill</span>
-                  <span class="font-semibold">₹ {subtotal}</span>
+            <div className="col-span-1">
+              <div className="bg-white rounded-lg shadow-lg p-6">
+                <h2 className="text-lg font-bold mb-4">Payment Information</h2>
+                <div className="flex justify-between">
+                  <span className="text-sm font-sans">Total Product Bill</span>
+                  <span className="font-semibold">₹ {subtotal}</span>
                 </div>
                 <div
-                  class={`flex justify-between ${
+                  className={`flex justify-between ${
                     shippingCharges === 0 ? "line-through" : ""
                   } `}
                 >
-                  <span class="text-sm font-sans">Shipping charges</span>
-                  <span class="font-semibold">₹ {shippingCharges}</span>
+                  <span className="text-sm font-sans">Shipping charges</span>
+                  <span className="font-semibold">₹ {shippingCharges}</span>
                 </div>
                 <hr className="my-2" />
-                <div class="flex justify-between">
-                  <span class="font-bold">Total Payment</span>
-                  <span class="font-bold">₹ {subtotal + shippingCharges}</span>
+                <div className="flex justify-between">
+                  <span className="font-bold">Total Payment</span>
+                  <span className="font-bold">
+                    ₹ {subtotal + shippingCharges}
+                  </span>
                 </div>
                 {shippingCharges > 0 && (
                   <p className="text-green-500">
@@ -358,14 +356,14 @@ const Chekout = () => {
                 {shippingCharges === 0 && (
                   <p className="text-green-500">Enjoy free shipping!</p>
                 )}
-                <div class="mt-6">
+                <div className="mt-6">
                   {selectedAdress && (
                     <button
                       onClick={() => {
                         showrozerpay(subtotal);
                       }}
                       type="submit"
-                      class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                      className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                     >
                       Place Order
                     </button>
@@ -374,7 +372,7 @@ const Chekout = () => {
                     <>
                       <button
                         type="submit"
-                        class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                       >
                         Place Order
                       </button>
@@ -391,22 +389,24 @@ const Chekout = () => {
   } else {
     return (
       <>
-        <div class="flex flex-col items-center justify-center min-h-screen">
-          <div class="bg-white p-8 rounded-lg shadow-lg max-w-md">
-            <h1 class="text-3xl font-bold mb-4 text-center">Order Placement</h1>
-            <div class="flex flex-col space-y-4">
-              <p class="text-center text-gray-500 mb-4">
+        <div className="flex flex-col items-center justify-center min-h-screen">
+          <div className="bg-white p-8 rounded-lg shadow-lg max-w-md">
+            <h1 className="text-3xl font-bold mb-4 text-center">
+              Order Placement
+            </h1>
+            <div className="flex flex-col space-y-4">
+              <p className="text-center text-gray-500 mb-4">
                 Please wait while your order is being processed.
               </p>
-              <p class="text-center text-red-500">
+              <p className="text-center text-red-500">
                 Please do not press the back button or close this tab.
               </p>
             </div>
 
-            <div class="flex items-center justify-center mt-8">
-              <div class="w-4 h-4 bg-blue-500 rounded-full animate-ping animation-delay-0"></div>
-              <div class="w-4 h-4 bg-blue-500 rounded-full animate-ping animation-delay-1"></div>
-              <div class="w-4 h-4 bg-blue-500 rounded-full animate-ping animation-delay-2"></div>
+            <div className="flex items-center justify-center mt-8">
+              <div className="w-4 h-4 bg-blue-500 rounded-full animate-ping animation-delay-0"></div>
+              <div className="w-4 h-4 bg-blue-500 rounded-full animate-ping animation-delay-1"></div>
+              <div className="w-4 h-4 bg-blue-500 rounded-full animate-ping animation-delay-2"></div>
             </div>
           </div>
         </div>

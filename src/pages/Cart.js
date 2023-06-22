@@ -75,7 +75,7 @@ const Cart = () => {
             {Products.map((item) => {
               // console.log(item.qty)
               return (
-                <tr>
+                <tr key={item.id}>
                   <td className="py-2 px-4 border-b">
                     <div className="flex items-center">
                       <img

@@ -6,16 +6,16 @@ import { LoginHanlder, SignupHandler } from "../../store/Actions/auth-action";
 const Login = () => {
   const [loginpage, setloginpage] = useState(true);
   const error = useSelector((state) => state.ui.formerror);
-  const auth = useSelector(state=>state.auth.auth)
+  const auth = useSelector((state) => state.auth.auth);
   const [errormsg, seterrormsg] = useState();
   const [loading, setloading] = useState(false);
   useEffect(() => {
-    setloading(false)
+    setloading(false);
     seterrormsg(error);
     setTimeout(() => {
       seterrormsg("");
     }, 5000);
-  }, [error,auth]);
+  }, [error, auth]);
 
   const dispatch = useDispatch();
 
@@ -28,7 +28,7 @@ const Login = () => {
 
   const OnLoginClickHandler = (event) => {
     event.preventDefault();
-    setloading(true)
+    setloading(true);
     const logindetails = {
       email: event.target.username.value,
       password: event.target.password.value,
@@ -37,7 +37,7 @@ const Login = () => {
   };
   const OnSignUpClickHandler = (event) => {
     event.preventDefault();
-    setloading(true)
+    setloading(true);
 
     const fullname = event.target.fullname.value;
     const username = event.target.username.value;
@@ -57,23 +57,23 @@ const Login = () => {
       <div>
         <div
           id="loginModal"
-          class="fixed inset-0 flex items-center justify-center  z-50 backdrop-blur-sm"
+          className="fixed inset-0 flex items-center justify-center  z-50 backdrop-blur-sm"
         >
           {loginpage && (
-            <div class="bg-gray-100 p-8 mx-4 rounded shadow-md w-11/12 max-w-md">
-              <h2 class="text-2xl mb-4 text-modal">Login </h2>
+            <div className="bg-gray-100 p-8 mx-4 rounded shadow-md w-11/12 max-w-md">
+              <h2 className="text-2xl mb-4 text-modal">Login </h2>
               <label
-                class="block text-red-900 text-sm font-bold mb-2 text-modal"
-                for="username"
+                className="block text-red-900 text-sm font-bold mb-2 text-modal"
+                htmlFor="username"
               >
                 {errormsg}
               </label>
 
               <form onSubmit={OnLoginClickHandler}>
-                <div class="mb-4">
+                <div className="mb-4">
                   <label
-                    class="block text-gray-900 text-md font-bold mb-2 text-modal"
-                    for="username"
+                    className="block text-gray-900 text-md font-bold mb-2 text-modal"
+                    htmlFor="username"
                   >
                     Username
                   </label>
@@ -81,30 +81,30 @@ const Login = () => {
                     id="username"
                     type="email"
                     // name="username"
-                    class="appearance-none border-modal rounded w-full py-2 px-3 text-modal leading-tight focus:outline-none focus-modal"
+                    className="appearance-none border-modal rounded w-full py-2 px-3 text-modal leading-tight focus:outline-none focus-modal"
                     placeholder="Enter your username"
                     required
                   />
                 </div>
-                <div class="mb-4">
+                <div className="mb-4">
                   <label
-                    class="block text-gray-900 text-md font-bold mb-2 text-modal"
-                    for="password"
+                    className="block text-gray-900 text-md font-bold mb-2 text-modal"
+                    htmlFor="password"
                   >
                     Password
                   </label>
                   <input
                     id="password"
                     type="password"
-                    class="appearance-none border-modal rounded w-full py-2 px-3 text-modal leading-tight focus:outline-none focus-modal"
+                    className="appearance-none border-modal rounded w-full py-2 px-3 text-modal leading-tight focus:outline-none focus-modal"
                     placeholder="Enter your password"
                     required
                   />
                 </div>
-                <div class="flex items-center justify-between">
+                <div className="flex items-center justify-between">
                   <button
                     id="loginSubmitBtn"
-                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                     type="submit"
                   >
                     Login
@@ -112,7 +112,7 @@ const Login = () => {
                   <button
                     onClick={onclosehandler}
                     id="closeBtn"
-                    class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
                     type="button"
                   >
                     Close
@@ -131,63 +131,63 @@ const Login = () => {
             </div>
           )}
           {!loginpage && (
-            <div class="bg-gray-100 p-8 mx-4 rounded shadow-md w-11/12 max-w-md">
-              <h2 class="text-2xl mb-4 text-modal">SignUp</h2>
+            <div className="bg-gray-100 p-8 mx-4 rounded shadow-md w-11/12 max-w-md">
+              <h2 className="text-2xl mb-4 text-modal">SignUp</h2>
               <label
-                class="block text-red-900 text-sm font-bold mb-2 text-modal"
-                for="username"
+                className="block text-red-900 text-sm font-bold mb-2 text-modal"
+                htmlFor="username"
               >
                 {errormsg}
               </label>
               <form onSubmit={OnSignUpClickHandler}>
-                <div class="mb-4">
+                <div className="mb-4">
                   <label
-                    class="block text-gray-900 text-md font-bold mb-2 text-modal"
-                    for="fullname"
+                    className="block text-gray-900 text-md font-bold mb-2 text-modal"
+                    htmlFor="fullname"
                   >
                     Full Name
                   </label>
                   <input
                     id="fullname"
                     type="text"
-                    class="appearance-none border-modal rounded w-full py-2 px-3 text-modal leading-tight focus:outline-none focus-modal"
+                    className="appearance-none border-modal rounded w-full py-2 px-3 text-modal leading-tight focus:outline-none focus-modal"
                     placeholder="Enter your Full Name"
                     required
                   />
                   <label
-                    class="block text-gray-900 text-md font-bold mb-2 text-modal"
-                    for="username"
+                    className="block text-gray-900 text-md font-bold mb-2 text-modal"
+                    htmlFor="username"
                   >
                     Username
                   </label>
                   <input
                     id="username"
                     type="email"
-                    class="appearance-none border-modal rounded w-full py-2 px-3 text-modal leading-tight focus:outline-none focus-modal"
+                    className="appearance-none border-modal rounded w-full py-2 px-3 text-modal leading-tight focus:outline-none focus-modal"
                     placeholder="Enter your username"
                     required
                   />
                 </div>
-                <div class="mb-4">
+                <div className="mb-4">
                   <label
-                    class="block text-gray-900 text-md font-bold mb-2 text-modal"
-                    for="password"
+                    className="block text-gray-900 text-md font-bold mb-2 text-modal"
+                    htmlFor="password"
                   >
                     Password
                   </label>
                   <input
                     id="password"
                     type="password"
-                    class="appearance-none border-modal rounded w-full py-2 px-3 text-modal leading-tight focus:outline-none focus-modal"
+                    className="appearance-none border-modal rounded w-full py-2 px-3 text-modal leading-tight focus:outline-none focus-modal"
                     placeholder="Enter your password"
                     required
                   />
                 </div>
 
-                <div class="flex items-center justify-between">
+                <div className="flex items-center justify-between">
                   <button
                     id="loginSubmitBtn"
-                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                     type="submit"
                   >
                     SignUp
@@ -195,7 +195,7 @@ const Login = () => {
                   <button
                     onClick={onclosehandler}
                     id="closeBtn"
-                    class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
                     type="button"
                   >
                     Close
@@ -221,25 +221,25 @@ const Login = () => {
       <div>
         <div
           id="loginModal"
-          class="fixed inset-0 flex items-center justify-center  z-50 backdrop-blur-sm"
+          className="fixed inset-0 flex items-center justify-center  z-50 backdrop-blur-sm"
         >
-          <div class="flex items-center justify-center">
+          <div className="flex items-center justify-center">
             <svg
-              class="animate-spin h-5 w-5 text-gray-500 mr-3"
+              className="animate-spin h-5 w-5 text-gray-500 mr-3"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
             >
               <circle
-                class="opacity-25"
+                className="opacity-25"
                 cx="12"
                 cy="12"
                 r="10"
                 stroke="currentColor"
-                stroke-width="4"
+                strokeWidth="4"
               ></circle>
               <path
-                class="opacity-75"
+                className="opacity-75"
                 fill="currentColor"
                 d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647zM12 20a8 8 0 01-8-8H0c0 4.418 3.582 8 8 8v-4zm7-2.709A7.963 7.963 0 0120 12h-4c0 3.536-2.228 6.519-5.354 7.641l3 2.647z"
               ></path>

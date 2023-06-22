@@ -28,7 +28,7 @@ const ProductForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(product); // Replace with your desired logic to handle the form submission
+    // console.log(product); // Replace with your desired logic to handle the form submission
   };
 
   return (

@@ -32,7 +32,7 @@ const ProfilePage = () => {
           }),
         }
       );
-      console.log(response);
+      // console.log(response);
 
       if (!response.ok) {
         throw new Error("Error updating user");
@@ -47,7 +47,7 @@ const ProfilePage = () => {
       localStorage.setItem("user", updatedItem);
       dispatch(auth.setuser(responsedata));
 
-      console.log("User updated successfully:", responsedata);
+      // console.log("User updated successfully:", responsedata);
     } catch (error) {
       console.error("Error updating user:", error);
     }
@@ -104,20 +104,20 @@ const ProfilePage = () => {
                 </div>
 
                 {/* Profile Informations */}
-                <div class="flex flex-col items-center ">
-                  <div class="max-w-md w-full bg-white shadow-lg rounded-lg p-6">
-                    <div class="flex items-center justify-between mb-4">
-                      <div class="flex items-center">
+                <div className="flex flex-col items-center ">
+                  <div className="max-w-md w-full bg-white shadow-lg rounded-lg p-6">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center">
                         <img
-                          class="h-12 w-12 rounded-full object-cover"
+                          className="h-12 w-12 rounded-full object-cover"
                           src="https://i.ytimg.com/vi/tKB4h9gvmm0/maxresdefault.jpg"
                           alt="Profile "
                         />
-                        <div class="ml-4">
-                          <h2 class="text-lg font-medium text-gray-900">
+                        <div className="ml-4">
+                          <h2 className="text-lg font-medium text-gray-900">
                             {user.name}
                           </h2>
-                          <p class="text-sm font-medium text-gray-500">
+                          <p className="text-sm font-medium text-gray-500">
                             {user.email}
                           </p>
                         </div>
@@ -126,41 +126,41 @@ const ProfilePage = () => {
                         onClick={() => {
                           setshowform(!showform);
                         }}
-                        class="text-blue-500 hover:text-blue-700"
+                        className="text-blue-500 hover:text-blue-700"
                       >
                         Edit
                       </button>
                     </div>
                     {showform && (
                       <form onSubmit={onprofileupdatehandler}>
-                        <div class="flex flex-col space-y-4">
-                          <label for="first-name" class="font-bold">
+                        <div className="flex flex-col space-y-4">
+                          <label htmlFor="first-name" className="font-bold">
                             First Name:
                           </label>
                           <input
                             type="text"
                             id="firstname"
                             name="first-name"
-                            class="border border-gray-300 p-2 rounded-md"
+                            className="border border-gray-300 p-2 rounded-md"
                             required
                           />
 
-                          <label for="last-name" class="font-bold">
+                          <label htmlFor="last-name" className="font-bold">
                             Last Name:
                           </label>
                           <input
                             type="text"
                             id="lastname"
                             name="last-name"
-                            class="border border-gray-300 p-2 rounded-md"
+                            className="border border-gray-300 p-2 rounded-md"
                             required
                           />
 
-                          <div class="flex items-center justify-end">
+                          <div className="flex items-center justify-end">
                             <button
                               type="submit"
                               id="save-button"
-                              class="bg-blue-500 text-white font-bold py-2 px-4 rounded"
+                              className="bg-blue-500 text-white font-bold py-2 px-4 rounded"
                             >
                               Save
                             </button>
@@ -170,11 +170,11 @@ const ProfilePage = () => {
                                 setshowform(false);
                               }}
                               id="close-button"
-                              class="ml-2 text-gray-500 hover:text-gray-700"
+                              className="ml-2 text-gray-500 hover:text-gray-700"
                             >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
-                                class="h-5 w-5"
+                                className="h-5 w-5"
                                 viewBox="0 0 20 20"
                                 fill="currentColor"
                               >
@@ -192,49 +192,53 @@ const ProfilePage = () => {
                 </div>
 
                 {/* Order and Address Buttons  */}
-                <div class="flex m-2 space-x-2 bg-gray-100">
+                <div className="flex m-2 space-x-2 bg-gray-100">
                   <div
                     onClick={() => {
                       setshow("orders");
                     }}
-                    class="flex-1 cursor-pointer max-w-md bg-white justify-center  shadow-lg rounded-lg p-6 flex items-center space-x-4"
+                    className="flex-1 cursor-pointer max-w-md bg-white justify-center  shadow-lg rounded-lg p-6 flex items-center space-x-4"
                   >
                     <span>
                       <HiOutlineShoppingBag />
                     </span>
-                    <h2 class="text-lg font-medium text-gray-900">Orders</h2>
+                    <h2 className="text-lg font-medium text-gray-900">
+                      Orders
+                    </h2>
                   </div>
                   <div
                     onClick={() => {
                       setshow("address");
                     }}
-                    class="flex-1 cursor-pointer max-w-md bg-white justify-center shadow-lg rounded-lg p-6 flex items-center space-x-4"
+                    className="flex-1 cursor-pointer max-w-md bg-white justify-center shadow-lg rounded-lg p-6 flex items-center space-x-4"
                   >
                     <span>
                       <FaRegAddressCard />
                     </span>
-                    <h2 class="text-lg font-medium text-gray-900">Addresses</h2>
+                    <h2 className="text-lg font-medium text-gray-900">
+                      Addresses
+                    </h2>
                   </div>
                 </div>
 
                 {/* Orders List  */}
                 {show === "orders" && (
-                  <div class="flex m-2 space-x-2 bg-gray-100">
-                    <div class="flex-1 max-w-md bg-white shadow-lg rounded-lg p-6 flex items-center space-x-4">
+                  <div className="flex m-2 space-x-2 bg-gray-100">
+                    <div className="flex-1 max-w-md bg-white shadow-lg rounded-lg p-6 flex items-center space-x-4">
                       <div>
                         <img
                           src="product-photo.jpg"
                           alt="Product"
-                          class="w-16 h-16 rounded-full"
+                          className="w-16 h-16 rounded-full"
                         />
                       </div>
-                      <div class="flex flex-col">
-                        <h3 class="text-xl font-bold">Order ID</h3>
-                        <p class="text-gray-600">
+                      <div className="flex flex-col">
+                        <h3 className="text-xl font-bold">Order ID</h3>
+                        <p className="text-gray-600">
                           Purchase Date: June 20, 2023
                         </p>
-                        <p class="text-gray-600">Bill: $99.99</p>
-                        <p class="text-gray-600">Payment Status: Paid</p>
+                        <p className="text-gray-600">Bill: $99.99</p>
+                        <p className="text-gray-600">Payment Status: Paid</p>
                       </div>
                     </div>
                   </div>
