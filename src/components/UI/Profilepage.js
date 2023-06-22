@@ -5,16 +5,56 @@ import { HiOutlineShoppingBag } from "react-icons/hi";
 import { FaRegAddressCard } from "react-icons/fa";
 import Chekout from "../../pages/Chekout";
 import Addresses from "../Auth/Addresses";
+import { auth } from "../../store/auth-handler";
 const ProfilePage = () => {
   const dispatch = useDispatch();
   const [selectedAdress, setselectedAdress] = useState();
   const [show, setshow] = useState("orders");
   const [showform, setshowform] = useState(false);
   const user = useSelector((state) => state.auth.user);
-  const orders= useSelector(state=>state.product.orders)
+  const orders = useSelector((state) => state.product.orders);
   // console.log(user.name.split(" "));
   const onclosehandler = () => {
     dispatch(UiSlice.profilechange());
+  };
+
+  const profileupdate = async (newFullName) => {
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_API_KEY}/auth/updateuser/${user.email}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            fullName: newFullName,
+          }),
+        }
+      );
+      console.log(response);
+
+      if (!response.ok) {
+        throw new Error("Error updating user");
+      }
+
+      const responsedata = await response.json();
+      setshowform(false);
+      const updatedItem = JSON.stringify({
+        email: responsedata.email,
+        name: responsedata.name,
+      });
+      localStorage.setItem("user", updatedItem);
+      dispatch(auth.setuser(responsedata));
+
+      console.log("User updated successfully:", responsedata);
+    } catch (error) {
+      console.error("Error updating user:", error);
+    }
+  };
+  const onprofileupdatehandler = (e) => {
+    e.preventDefault();
+    profileupdate(e.target.firstname.value + " " + e.target.lastname.value);
   };
   return (
     <div
@@ -59,7 +99,7 @@ const ProfilePage = () => {
                     className="text-base font-semibold leading-6 text-gray-900"
                     id="slide-over-title"
                   >
-                    Panel title
+                    Account Information
                   </h2>
                 </div>
 
@@ -70,7 +110,7 @@ const ProfilePage = () => {
                       <div class="flex items-center">
                         <img
                           class="h-12 w-12 rounded-full object-cover"
-                          src="profile-image.jpg"
+                          src="https://i.ytimg.com/vi/tKB4h9gvmm0/maxresdefault.jpg"
                           alt="Profile "
                         />
                         <div class="ml-4">
@@ -92,57 +132,61 @@ const ProfilePage = () => {
                       </button>
                     </div>
                     {showform && (
-                      <div class="flex flex-col space-y-4">
-                        <label for="first-name" class="font-bold">
-                          First Name:
-                        </label>
-                        <input
-                          type="text"
-                          id="first-name"
-                          name="first-name"
-                          class="border border-gray-300 p-2 rounded-md"
-                        />
+                      <form onSubmit={onprofileupdatehandler}>
+                        <div class="flex flex-col space-y-4">
+                          <label for="first-name" class="font-bold">
+                            First Name:
+                          </label>
+                          <input
+                            type="text"
+                            id="firstname"
+                            name="first-name"
+                            class="border border-gray-300 p-2 rounded-md"
+                            required
+                          />
 
-                        <label for="last-name" class="font-bold">
-                          Last Name:
-                        </label>
-                        <input
-                          type="text"
-                          id="last-name"
-                          name="last-name"
-                          class="border border-gray-300 p-2 rounded-md"
-                        />
+                          <label for="last-name" class="font-bold">
+                            Last Name:
+                          </label>
+                          <input
+                            type="text"
+                            id="lastname"
+                            name="last-name"
+                            class="border border-gray-300 p-2 rounded-md"
+                            required
+                          />
 
-                        <div class="flex items-center justify-end">
-                          <button
-                            type="button"
-                            id="save-button"
-                            class="bg-blue-500 text-white font-bold py-2 px-4 rounded"
-                          >
-                            Save
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setshowform(false);
-                            }}
-                            id="close-button"
-                            class="ml-2 text-gray-500 hover:text-gray-700"
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              class="h-5 w-5"
-                              viewBox="0 0 20 20"
-                              fill="currentColor"
+                          <div class="flex items-center justify-end">
+                            <button
+                              type="submit"
+                              id="save-button"
+                              class="bg-blue-500 text-white font-bold py-2 px-4 rounded"
                             >
-                              <path
-                                fill-rule="evenodd"
-                                d="M4.293 4.293a1 1 0 0 1 1.414 0L10 8.586l4.293-4.293a1 1 0 1 1 1.414 1.414L11.414 10l4.293 4.293a1 1 0 1 1-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 0 1-1.414-1.414L8.586 10 4.293 5.707a1 1 0 0 1 0-1.414z"
-                              />
-                            </svg>
-                          </button>
+                              Save
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setshowform(false);
+                              }}
+                              id="close-button"
+                              class="ml-2 text-gray-500 hover:text-gray-700"
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="h-5 w-5"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                              >
+                                <path
+                                  fill-rule="evenodd"
+                                  d="M4.293 4.293a1 1 0 0 1 1.414 0L10 8.586l4.293-4.293a1 1 0 1 1 1.414 1.414L11.414 10l4.293 4.293a1 1 0 1 1-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 0 1-1.414-1.414L8.586 10 4.293 5.707a1 1 0 0 1 0-1.414z"
+                                />
+                              </svg>
+                            </button>
+                          </div>
                         </div>
-                      </div>
+                      </form>
                     )}
                   </div>
                 </div>
