@@ -4,9 +4,10 @@ import { useDispatch } from 'react-redux';
 
 export const useGetproducts = () => {
     const dispatch = useDispatch()
-    useEffect(() => {
+    const apiurl = process.env.REACT_APP_API_KEY;
+   
         // Establish WebSocket connection
-        const socket = new WebSocket("ws://localhost:5000");
+        const socket = new WebSocket(`ws://vibe-backend-83cg.onrender.com`);
       
         // WebSocket connection event
         socket.onopen = () => {
@@ -16,6 +17,7 @@ export const useGetproducts = () => {
         // Handle incoming WebSocket messages
         socket.onmessage = (event) => {
           const data = JSON.parse(event.data);
+          console.log("datarecived")
           dispatch(pd.setproducts(data));
           // Process the received data as needed
         };
@@ -34,5 +36,5 @@ export const useGetproducts = () => {
         return () => {
           socket.close();
         };
-      }, []);
+     
 }
