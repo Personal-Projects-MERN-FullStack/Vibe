@@ -191,3 +191,42 @@ export const GetOrders = (user) => {
     }
   };
 };
+export const CustomerReviewChecker = (user, orders, product) => {
+  return (dispatch) => {
+    // console.log(typeof product);
+    const cusotmerexist = orders.find((order) => {
+      return order.customerid === user.email;
+    }); 
+
+    if (cusotmerexist) {
+      if (product.reviews.length > 0) {
+        const matchingReviews = product.reviews.filter(
+          (review) => review.username === user.email
+        );
+        if (matchingReviews.length >= 3) {
+          dispatch(
+            UiSlice.shownotificationbar({
+              active: true,
+              msg: `You Can Only Add 3 Comments`,
+              path: `Buy More Products`,
+              pathname: `/product-search/${product.name}`,
+            })
+          );
+        } else {
+          return true
+        }
+      }else{
+        return true
+      }
+    } else {
+      dispatch(
+        UiSlice.shownotificationbar({
+          active: true,
+          msg: `Buy This Product to Add Rviews`,
+          path: `/product/${product.id}`,
+          pathname: "buy here",
+        })
+      );
+    }
+  };
+};

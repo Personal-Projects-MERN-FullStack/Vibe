@@ -1,10 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { UiSlice } from "../store/ui-slice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { GetOrders } from "../store/Actions/proudct-action";
 
 const OrderPlaced = () => {
   const dispatch = useDispatch()
+  const user = useSelector(state=>state.auth.user)
+  dispatch(GetOrders(user));
   return (
     <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full bg-white p-8 rounded shadow-lg">

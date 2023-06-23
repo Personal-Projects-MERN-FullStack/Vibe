@@ -13,8 +13,8 @@ const ProductAvailability = ({ quantity }) => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-lg max-w-md">
+    <div className="flex flex-col items-center justify-center w-full ">
+      <div className="bg-white p-8 rounded-lg shadow-lg w-full">
         <h1 className="text-3xl font-bold mb-4 text-center">Product Availability</h1>
 
         <div className="flex items-center justify-between mb-4">
@@ -26,7 +26,7 @@ const ProductAvailability = ({ quantity }) => {
               ></div>
             </div>
           </div>
-          <p className="ml-4 text-gray-500">{availabilityPercentage}% Available</p>
+          <p className="ml-4 text-gray-500">{availabilityPercentage.toFixed(2)}% Available</p>
         </div>
 
         <p className="mt-4 text-center">{availabilityState}</p>

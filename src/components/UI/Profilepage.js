@@ -14,7 +14,7 @@ const ProfilePage = () => {
   const [showform, setshowform] = useState(false);
   const user = useSelector((state) => state.auth.user);
   const orders = useSelector((state) => state.product.orders);
-  console.log(orders)
+  // console.log(orders)
  
   const onclosehandler = () => {
     dispatch(UiSlice.profilechange());
