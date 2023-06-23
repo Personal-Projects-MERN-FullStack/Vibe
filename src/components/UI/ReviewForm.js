@@ -9,6 +9,7 @@ const ReviewForm = () => {
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
   const [base64Image, setBase64Image] = useState("");
+  const [fileformatchecker, setfileformatchecker] = useState(true);
   const [previewImage, setPreviewImage] = useState(null); // Added state for preview image
   const authed = useSelector((state) => state.auth.auth);
   const product = useSelector((state) => state.product.product);
@@ -47,49 +48,54 @@ const ReviewForm = () => {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    // console.log(URL.createObjectURL(file))
-    setPreviewImage(URL.createObjectURL(file)); // Set preview image using object URL
-  
-    convertImageToBase64(file)
-      .then((base64Image) => {
-        // Do something with the base64Image
-        setBase64Image(base64Image)
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+
+    // Check if the selected file is an image
+    if (file && file.type.startsWith("image/")) {
+      setfileformatchecker(true);
+      setPreviewImage(URL.createObjectURL(file));
+
+      convertImageToBase64(file)
+        .then((base64Image) => {
+          setBase64Image(base64Image);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } else {
+      alert("goccha");
+      // Show an error message or perform any desired action for non-image files
+      setfileformatchecker(false);
+      console.log("Invalid file format. Please select an image.");
+    }
   };
-  
 
-
-  
   const convertImageToBase64 = (imageFile, maxSizeKB = 50) => {
     return new Promise((resolve, reject) => {
       if (!imageFile) {
         resolve("");
         return;
       }
-  
+
       const maxSizeBytes = maxSizeKB * 1024;
-  
+
       const img = new Image();
       img.onload = () => {
         const canvas = document.createElement("canvas");
         let width = img.width;
         let height = img.height;
-  
+
         if (img.size > maxSizeBytes) {
           const scaleFactor = Math.sqrt(img.size / maxSizeBytes);
           width = Math.floor(width / scaleFactor);
           height = Math.floor(height / scaleFactor);
         }
-  
+
         canvas.width = width;
         canvas.height = height;
-  
+
         const ctx = canvas.getContext("2d");
         ctx.drawImage(img, 0, 0, width, height);
-  
+
         canvas.toBlob(
           (blob) => {
             const reader = new FileReader();
@@ -105,28 +111,23 @@ const ReviewForm = () => {
           0.5 // Adjust the quality factor to compress the image further (e.g., 0.5 for 50% quality)
         );
       };
-  
+
       img.onerror = () => {
         reject(new Error("Error occurred while loading the image."));
       };
-  
+
       img.src = URL.createObjectURL(imageFile);
     });
   };
-  
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-    // const value =  await handleImageUpload();
-    // console.log(base64Image)
+      // const value =  await handleImageUpload();
+      // console.log(base64Image)
 
-     
-
-      const review = dispatch(
-        CustomerReviewChecker(user, orders, product[0])
-      );
+      const review = dispatch(CustomerReviewChecker(user, orders, product[0]));
 
       if (review) {
         const response = await fetch(
@@ -225,6 +226,11 @@ const ReviewForm = () => {
               onChange={handleImageChange}
               className="border border-gray-300 rounded-lg px-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
+            {!fileformatchecker && (
+              <div className="bg-red-500 text-white text-sm py-1 px-2 rounded">
+                Invalid file format. Please select an image.
+              </div>
+            )}
             {previewImage && ( // Show preview image if available
               <img
                 src={previewImage}
@@ -234,12 +240,23 @@ const ReviewForm = () => {
             )}
           </div>
           <div className="flex justify-between">
-            <button
-              type="submit"
-              className="bg-blue-500 text-white font-medium py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors duration-300"
-            >
-              Submit
-            </button>
+            {fileformatchecker && (
+              <button
+                type="submit"
+                className="bg-blue-500 text-white font-medium py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors duration-300"
+              >
+                Submit
+              </button>
+            )}
+            {!fileformatchecker && (
+              <div
+                type="button"
+                className="bg-gray-500 text-white font-medium py-2 px-4 rounded-lg hover:bg-gray-800 transition-colors duration-300"
+              >
+                Submit
+              </div>
+            )}
+
             <button
               type="button"
               onClick={handleCloseForm}
