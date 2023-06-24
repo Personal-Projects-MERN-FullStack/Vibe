@@ -89,7 +89,7 @@ const Chekout = () => {
     const options = {
       key: "rzp_test_hohwVTs6y3uKSI",
       currency: "INR",
-      amount: amount * 100 + shippingCharges,
+      amount: (amount+ shippingCharges) * 100 ,
       name: "Vibe Store",
       description: "Thanks For Connection With us",
       modal: true,

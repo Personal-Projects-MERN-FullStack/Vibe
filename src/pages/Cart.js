@@ -103,16 +103,17 @@ const Cart = () => {
                       <span className="px-2">{item.qty}</span>
                       <button
                         onClick={() => {
-                          if(item.availability.quantity >item.qty){
+                          if (item.availability.quantity > item.qty) {
                             onQtyIncresseHandler(item);
-                          }else{
+                          } else {
                             dispatch(
                               UiSlice.shownotificationbar({
                                 active: true,
                                 msg: `Only ${item.availability.quantity} products left!`,
                                 path: "/checkout",
                                 pathname: "Chekout to order this",
-                              }))
+                              })
+                            );
                           }
                         }}
                         className="text-blue-500 font-bold px-2"
@@ -152,7 +153,9 @@ const Cart = () => {
       <div className="mt-4 flex flex-col md:flex-row justify-between">
         {Products.length > 0 && (
           <Link
-          onClick={()=>{dispatch(UiSlice.cartchange())}}
+            onClick={() => {
+              dispatch(UiSlice.cartchange());
+            }}
             to="/checkout"
             className="text-white bg-blue-500 py-2 px-4 rounded hover:bg-blue-600 mt-2 md:mt-0"
           >
