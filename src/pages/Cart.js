@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { pd } from "../store/Product-handler";
 import { UiSlice } from "../store/ui-slice";
+import Pagination from "../components/common/Pagination";
 
 const Cart = () => {
   const Products = useSelector((state) => state.product.cart);
@@ -44,9 +45,10 @@ const Cart = () => {
   const ongotocarthandler = () => {
     dispatch(UiSlice.cartchange());
   };
-
+  const showcart = useSelector(state=>state.ui.showcart)
   return (
     <div className="container mx-auto py-8">
+     {!showcart &&  <Pagination pagename={"Cart"} />}
       <h1 className="text-2xl font-bold mb-4">
         Your Cart
         <Link to="/cart">

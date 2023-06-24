@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Pagination from "./Pagination";
 
 const ProductForm = () => {
   const [product, setProduct] = useState({
@@ -33,6 +34,7 @@ const ProductForm = () => {
 
   return (
     <div className="max-w-md mx-auto">
+      <Pagination pagename={"Product List"} />
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
           type="text"

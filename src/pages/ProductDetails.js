@@ -6,6 +6,7 @@ import LoadingSpinner from "../components/common/LoadingSpinner";
 import { UiSlice } from "../store/ui-slice";
 import ProductAvailability from "../components/common/ProductAvailability";
 import ReviewForm from "../components/UI/ReviewForm";
+import Pagination from "../components/common/Pagination";
 
 const ProductDetails = () => {
   const [pdata, setpdata] = useState([]);
@@ -57,6 +58,7 @@ const ProductDetails = () => {
 
   return (
     <div>
+      <Pagination pagename={"Product Details"} />
       {pdata.length === 0 && <LoadingSpinner message="Product Not Available" />}
       {pdata.length > 0 && (
         <div className="container mx-auto p-4">

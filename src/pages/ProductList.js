@@ -6,6 +6,7 @@ import { useParams } from "react-router";
 import ProductCard from "../components/product/ProductCard";
 import { UiSlice } from "../store/ui-slice";
 import Option from "../components/common/Option";
+import Pagination from "../components/common/Pagination";
 
 const ProductList = () => {
   const [FilteredList, setFilteredList] = useState([]);
@@ -189,6 +190,7 @@ const ProductList = () => {
 
   return (
     <>
+      <Pagination pagename={"Product List"} />
       {!ProductAvail.status && (
         <div className="flex items-center bg-gray-200 py-2 px-4">
           <span className="mr-2">Sort By:</span>

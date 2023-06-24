@@ -8,6 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import uiSlice from "../store/ui-slice";
 import Addresses from "../components/Auth/Addresses";
 import { OrderProduct } from "../store/Actions/proudct-action";
+import Pagination from "../components/common/Pagination";
 const Chekout = () => {
   const [shippingCharges, setshippingCharges] = useState(60);
 
@@ -132,6 +133,7 @@ const Chekout = () => {
   if (!orderplaced) {
     return (
       <div>
+         <Pagination pagename={"Checkout"} />
         {/* <Locationlookup/> */}
         <div className="container mx-auto px-4 py-8">
           <h1 className="text-2xl font-bold mb-4">Checkout</h1>
